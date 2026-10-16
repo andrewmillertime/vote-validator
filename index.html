@@ -99,6 +99,15 @@ summary{cursor:pointer;font-weight:600}
 .profile{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);display:grid;gap:4px}
 .profile p{margin:0}
 a{color:var(--accent)}
+.info{margin:4px 0 14px;padding:10px 14px;background:var(--soft);border-radius:8px;font-size:.95rem}
+.info[open] summary{margin-bottom:8px}
+.info p{margin:0 0 8px}
+.info ul{margin:0 0 8px;padding-left:20px}
+.info li{margin:3px 0}
+.itbl{overflow-x:auto;margin:0 0 8px}
+.itbl table{min-width:0;width:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.itbl th,.itbl td{padding:4px 10px;font-size:.85rem;text-align:left}
+.itbl thead th{position:static}
 .flagline{background:var(--warnbg);color:var(--warn);border-radius:6px;padding:6px 10px;margin:8px 0}
 select{font:inherit;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:6px 8px}
 @media (prefers-reduced-motion:reduce){.prog>i{transition:none}}
@@ -238,6 +247,148 @@ var QUESTIONS=[
   ["Mostly outreach, mental-health crisis teams and supportive housing, plus some enforcement.",4],
   ["Health-led crisis response and supportive housing, even if enforcement stays at current levels.",5]]}
 ];
+
+/* Neutral background per question: p = paragraphs, li = bullet facts,
+   tbl = {h:[headers], r:[[cells]]}, s = source keys or URLs. */
+var INFO={
+ H1:{p:["The City of North Vancouver is small and already dense. About 58,000 people lived on 11.8 square kilometres in 2021, making it the third most densely populated municipality in Canada. BC Stats estimated 67,000 residents by 2024."],
+  li:["Since 2023, provincial law requires the City to zone for its 20-year housing need. The City's 2024 Housing Needs Report puts that at 6,606 new homes by 2026 and 21,301 by 2041, on top of about 29,000 existing homes.",
+   "A separate provincial target order requires 3,320 net new homes between mid-2024 and mid-2029. The City reported 1,385 by mid-2026, ahead of the 1,190 due by then.",
+   "Around the Lonsdale Quay bus exchange, provincial transit-area rules allow buildings up to 12 storeys within 200 m and 8 storeys within 400 m, and stop the City from requiring residential parking there.",
+   "Council adopted guidelines for rental buildings up to 6 storeys in December 2025. Rental projects can get extra density and lower parking requirements.",
+   "Under provincial law, rezonings consistent with the Official Community Plan no longer get a public hearing.",
+   "In the 2026 campaign, one mayoral candidate proposed asking the Province for an exemption from the 20-year zoning requirement. The incumbent mayor said the Province will not grant one."],
+  s:["https://www.cnv.org/community-environment/housing/housing-needs-report","https://www.cnv.org/Community-Environment/Housing/Housing-Target-Report","https://www150.statcan.gc.ca/n1/daily-quotidien/220209/t004a-eng.htm","https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/263_2023","nsmay"]},
+ H2:{p:["Provincial Bill 44 (2023) requires cities to allow 3 or 4 homes on most single-family lots, and up to 6 near frequent transit. Cities can go further but not below these minimums."],
+  li:["The City updated its zoning for Bill 44 in June 2025.",
+   "On December 8, 2025 council adopted wider Official Community Plan and zoning changes. They added a ground-oriented housing zone, mapped areas for up to 4 and up to 6 homes per lot, and set aside a heritage study area. Councillor Valente cast the only vote against the provincial-alignment changes.",
+   "A further provincial law (Bill 25, November 2025) extends the rules to more lots near frequent transit, with a June 30, 2026 deadline. In May 2026 council sent its draft response back to staff for more work.",
+   "Supporters say small multiplexes add family-sized homes without towers. Critics raise parking, trees, school and sewer capacity, and the loss of local control."],
+  s:["https://www2.gov.bc.ca/gov/content/housing-tenancy/local-governments-and-housing/housing-initiatives/smale-scale-multi-unit-housing","https://www.cnv.org/Community-Environment/Housing/Provincial-Housing-Legislation-Updates/Growing-Livable-Neighbourhoods","https://www.cnv.org/community-environment/housing/provincial-housing-legislation-updates/bill-25,-c-,-response-to-provincial-requirements","cr"]},
+ T1:{p:["About 47% of City households rented in 2021. In October 2025 the median purpose-built rental was $2,000 a month and the vacancy rate was 2.9% (CMHC)."],
+  li:["Provincial law covers every tenant. A landlord demolishing a building needs all permits, must give 4 months' notice, and owes 1 month's rent in compensation.",
+   "The City's Tenant Displacement Policy (updated 2021) adds more when a rezoning would demolish 5 or more rental units. It provides 4 months' rent, moving costs of $1,000 to $1,500, a relocation coordinator, and first right of refusal on below-market units in the new building.",
+   "That first right of refusal is not a right to return at the old rent. It is a policy the developer agrees to, not a bylaw.",
+   "Since 2024 the Province has let cities pass binding tenant protection bylaws, including a right to return to a comparable unit. No such bylaw appears on the City's website as of October 2026."],
+  s:["https://www.cnv.org/Community-Environment/Housing/Tenant-Resources","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Housing/Residential-Tenant-Displacement-Policy-2021.pdf","https://www2.gov.bc.ca/gov/content/housing-tenancy/residential-tenancies/ending-a-tenancy/evictions/types-of-evictions","https://www2.gov.bc.ca/gov/content/housing-tenancy/local-governments-and-housing/housing-initiatives/new-local-government-tools"]},
+ T2:{p:["The City uses three main levers: requiring below-market units in private projects, putting City land and money into non-profit housing, and speeding up approvals."],
+  li:["Market rental projects that get extra density must make 10% of units \"mid-market\", at least 10% below the CMHC average rent (30% below for 3+ bedrooms), permanently. Council updated its inclusionary housing policy in July 2025.",
+   "On City-owned land at the North Shore Neighbourhood House site, 89 below-market homes opened in January 2026. A second phase of about 179 affordable rentals is under construction, with $24.5 million from BC Builds and $49.5 million from the City toward the new Neighbourhood House.",
+   "The federal Housing Accelerator Fund gave the City $18.6 million to speed up approvals and update affordability policies."],
+  tbl:{h:["Unit","Average market rent (2025)","2026 mid-market rent"],r:[["Studio","$1,681","$1,513"],["1 bedroom","$1,912","$1,721"],["2 bedroom","$2,407","$2,166"],["3+ bedroom","$3,872","$2,710"]]},
+  s:["https://www.cnv.org/Community-Environment/housing/affordable-housing","https://www.cnv.org/City-Hall/About/Capital-Projects/north-shore-neighbourhood-house-site-redevelopment","https://news.gov.bc.ca/releases/2025HMA0026-000293"]},
+ F1:{p:["Several large projects shape the debate about cost risk."],
+  li:["Harry Jerome Community Recreation Centre: estimated at $237 million in 2018, scaled back to about $180 million, then rebudgeted at $205 million (2021) and $230 million (2023). It opened in July 2026. The City borrowed up to $109 million, to be repaid by leasing the neighbouring City land.",
+   "Harbour Swim Deck at the Shipyards: about $21 million, with $16 million from the Weston family through Swim Drink Fish and $5 million from the City. Staff estimate $700,000 to $800,000 a year to operate from 2027. Permits are still pending.",
+   "City debt rose from under $1 million at the end of 2024 to $49.9 million at the end of 2025, mainly the Harry Jerome loan. The City's annual report calls its debt low compared with peers and provincial limits.",
+   "Some candidates cite a \"$165 million credit line\". City documents show two borrowing approvals that add up to about that: $109 million for Harry Jerome, and $55.7 million for the Neighbourhood House and two parks.",
+   "The North Shore Wastewater Treatment Plant is a Metro Vancouver project, not a City one. Its cost rose from about $700 million to $3.86 billion, and it is due in 2030."],
+  s:["https://www.cnv.org/City-Hall/About/Capital-Projects/Harry-Jerome-Community-Recreation-Centre/Explore-the-Project","https://www.cnv.org/city-hall/about/capital-projects/harbour-deck","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/City-Finances/2026/2025_Annual_Municipal_Report.pdf","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Alternative-Approval-Process/Frequently-Asked-Questions-(PDF).pdf","https://metrovancouver.org/services/liquid-waste/north-shore-wastewater-treatment-plant-program-materials"]},
+ F2:{p:["This is the City's overall municipal tax rate increase each year. Your own bill also depends on your assessment, and it includes school, TransLink and utility charges the City doesn't set. Compounded, the municipal rate roughly doubled between 2007 and 2026, an average of 3.6% a year."],
+  tbl:{h:["Year","City tax increase","BC inflation"],r:[["2008","4.05%","n/a"],["2009","3.90%","n/a"],["2010","3.10%","1.3%"],["2011","3.16%","n/a"],["2012","2.00%","n/a"],["2013","3.00%","n/a"],["2014","1.00%","n/a"],["2015","3.90%","1.1%"],["2016","3.90%","n/a"],["2017","3.40%","n/a"],["2018","2.50%","n/a"],["2019","4.25%","n/a"],["2020","2.00%","0.8%"],["2021","3.98%","2.8%"],["2022","3.75%","6.9%"],["2023","5.24%","3.9%"],["2024","6.90%","2.6%"],["2025","5.95%","2.1%"],["2026","2.92%","n/a"]]},
+  li:["Utility bills are separate. In 2025 the combined water and sewer bill for a typical home rose about 14%, mostly because the Metro Vancouver sewer levy rose 68% that year.",
+   "Metro estimates the wastewater plant overrun will cost the average North Shore household about $590 a year by 2029, phased in from 2025.",
+   "\"n/a\" means no inflation figure was gathered for that year."],
+  s:["https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/City-Finances/2012/2012---2021-Financial-Plan.pdf","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/City-Finances/2018/2018-2027-Financial-Plan.pdf","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/City-Finances/2024/2024-Property-Tax-Information-Sheet.pdf","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/City-Finances/2026/2026-Property-Tax-Info-Sheet_web-final.pdf","https://catalogue.data.gov.bc.ca/dataset/2c75c627-3eb6-41ee-bb54-7b089eade484/resource/93e4367b-56af-4e1c-aea7-48fb48f0727c/download/cpi_annual_averages.pdf","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Utility-Rates/2025-Utility-Bill-Info-Sheet.pdf","https://metrovancouver.org/services/liquid-waste/north-shore-wastewater-treatment-plant-program-common-questions"]},
+ G1:{p:["The City consults through surveys, pop-ups and workshops, and its Let's Talk CNV website. Council adopted a Community Engagement Framework in 2024."],
+  li:["Lonsdale Great Street: 2,665 people answered the first survey (January 2025). Council endorsed the plan 4-3 in April 2026.",
+   "Housing changes for provincial law (2025): more than 600 people took part before council adopted them in December 2025.",
+   "Former TransLink bus depot site: in February 2026 staff admitted an error that had stopped residents from speaking to council about the proposed towers.",
+   "\"The Trails\" proposal on East 1st: 58% of people at the developer's information session disliked it. It would need the community plan's height limit raised from 15 m to 55 m."],
+  s:["https://letstalk.cnv.org/engagementframework","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Lonsdale-Great-Street/Lonsdale-Great-Street-Phase-1-What-We-Heard-Report.pdf","https://www.cnv.org/Community-Environment/Housing/Provincial-Housing-Legislation-Updates/Growing-Livable-Neighbourhoods","https://www.northshoredailypost.com/staff-error-led-to-restrictions-on-public-input-city-of-north-vancouver/","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Building-and-Development/651_E_1st_St_-_DIS_Summary_Report.pdf"]},
+ G2:{p:["At regular council meetings, the public input period allows up to 5 speakers for 2 minutes each. Council listens but doesn't respond, and the same topic can come up only once every 3 months."],
+  li:["Residents can't use that slot for rezonings that, under provincial law, no longer get a public hearing. For those, written submissions are accepted until noon on the meeting day.",
+   "Several 2026 candidates propose changes, such as 3-minute slots, a question-and-answer format, or regular town halls."],
+  s:["https://www.cnv.org/City-Hall/Council-Meetings/public-input-period","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Bylaws/Consolidated/8500-C.pdf","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Major-Development/120-East-14th-Street/Public-Hearing-Process-Update-for-Residential-Rezonings-Consistent-with-the-OCP.pdf"]},
+ L1:{p:["The City owns several sites it has zoned for future housing. Whether to develop, lease or keep them as public space is a live campaign issue."],
+  li:["The East First lands (112 to 178 East 1st St and 131 East 2nd) were rezoned in 2025 for mixed use, with heights of 23 to 48 m. Council has not decided to sell or lease them. Some candidates propose a permanent park there instead.",
+   "City land at the North Shore Neighbourhood House site now holds below-market rental homes, a new Neighbourhood House and a park.",
+   "The land beside the new Harry Jerome centre is planned for lease to repay the centre's loan. In 2022 staff valued it at about $167 million. A large park on Lonsdale between 21st and 23rd is part of the plan."],
+  s:["https://www.cnv.org/Community-Environment/Housing/Provincial-Housing-Legislation-Updates/City-Lands-Planning","https://letstalk.cnv.org/north-shore-neighbourhood-house","https://www.cnv.org/City-Hall/News-Room/News-Releases/2022/2/1/Council-Approves-New-Financial-Strategy-for-Harry-Jerome-Community-Recreation-Centre"]},
+ L2:{p:["Tree canopy covers about 20% of the City, unchanged since at least 2007. About 65% of the canopy is on public land, mostly parks."],
+  li:["In December 2025 council endorsed a goal of 24% canopy by 2055. An earlier climate strategy had suggested 22 to 24% by 2035.",
+   "The 2010 Parks Master Plan aimed for about 3 hectares of park per 1,000 residents. A new Parks and Public Space Plan is due in mid-2027.",
+   "The tree bylaw protects trees 20 cm across or larger, but it exempts most single-family and duplex zones. Whether to apply it to all properties is a 2026 campaign question.",
+   "As the population grows, the same parks serve more people unless new park space is added through development or purchase."],
+  s:["https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Plans-Policies-and-Bylaws/Urban-Forest-Directions-Report.pdf","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Living-City/environment-strategy-2021/Climate-and-Environment-Strategy-City-of-North-Vancouver.pdf","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Bylaws/Consolidated/8888-C.pdf","https://www.cnv.org/parks-recreation/parks-greenways/park-projects/cnv-parks-and-public-space-plan"]},
+ E1:{p:["Council endorsed an Economic Strategy in April 2024. Business groups and candidates mostly agree on faster permits. They differ on how much the City should spend on districts and big strategies."],
+  li:["Lower Lonsdale has had a business improvement area (the Shipyards District) since 2016. These areas are funded by a levy on commercial properties.",
+   "A new Central Lonsdale business improvement area was created in March 2026, after a petition against it failed: 76 owners objected (27% of owners, 15% of assessed value). It can collect up to $600,000 a year.",
+   "The new Central Lonsdale association lists construction, parking and traffic changes, and rising costs as members' main concerns.",
+   "A Health Innovation District around Lions Gate Hospital is part of the strategy. The City counts more than 750 health-related businesses nearby, and announced a partnership to plan the district in June 2026."],
+  s:["https://www.cnv.org/City-Hall/News-Room/News-Releases/2024/4/25/City-of-North-Vancouver-Approves-New-Economic-Strategy","https://www.cnv.org/Business-Development/Economic-Development/Business-Improvement-Area","https://www.centrallonsdalebia.ca/services-1","https://www.cnv.org/City-Hall/News-Room/News-Releases/2026/6/25/CNV-Announces-Landmark-Partnership-to-Advance-Health-Innovation-District-in-Central-Lonsdale"]},
+ E2:{p:["The Lonsdale Great Street plan is a 20-year vision for Central Lonsdale, from Victoria Park north to Highway 1. It is a design and economic plan, not a zoning change or a construction contract."],
+  li:["Long-term ideas include wider sidewalks, street trees, rain gardens, patios and transit hubs. The plan says curbside parking and through traffic stay until a citywide transportation study (2026 to 2027) looks at narrowing the road. Any change would start with a test block.",
+   "The total budget so far is $2.1 million, mostly from a provincial grant. About $1.14 million went to planning and consultation, and $891,000 is set for 2026 work such as seating, lighting, landscaping and sidewalk repairs. Later phases need new council approval.",
+   "On April 20, 2026 council endorsed the 20-year vision 4-3, with Back, Bell and Shahriari opposed. The 2026 actions passed unanimously.",
+   "2,665 people answered the first survey in January 2025.",
+   "Supporters see a more walkable, lively main street. Some critics worry it leads to fewer car lanes or more density. The plan itself does not change zoning."],
+  s:["https://www.cnv.org/City-Hall/About/Capital-Projects/Past-Projects/Lonsdale-Great-Street-Project","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Lonsdale-Great-Street/Lonsdale_Great_Street_Report_-_FINAL.pdf","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Council-Meeting-Agenda/2026/2026-04-20-Regular-Agenda-Package-for-April-20-2026.pdf","min260420","https://www.betternorthshore.ca/blog/we-love-lonsdale-heres-how-it-can-continue-to-be-great"]},
+ C1:{p:["The City aims for net-zero community emissions by 2050 and 80% below 2007 levels by 2040. Its Climate and Environment Strategy was endorsed in June 2024."],
+  li:["In 2017 the City became the first in BC to require the BC Energy Step Code for all new buildings. Since November 2023, new homes must meet the top efficiency step, or a lower step paired with low-carbon heating.",
+   "Lonsdale Energy Corporation is a City-owned district energy utility that heats buildings for about a quarter of residents. It uses natural gas, renewable natural gas (RNG), geoexchange and, since 2025, electric boilers.",
+   "A sewer heat recovery centre (about $17.5 million in senior-government grants) is due in late 2027. It is expected to cut about 7,600 tonnes of CO2 a year.",
+   "Whether to phase out RNG, which costs more and counts as low-carbon, is a 2026 campaign question.",
+   "Supporters of mandates point to lower long-term energy costs and emissions. Critics point to higher building costs and housing affordability."],
+  s:["https://www.cnv.org/Community-Environment/Climate-Action/Climate-Environment-Strategy","https://www.cnv.org/Community-Environment/Climate-Action/Climate-Targets","https://www.cnv.org/business-development/building/energy-efficient-buildings-initiative/new-buildings","https://cnv.org/City-Services/Lonsdale-Energy","https://lonsdaleenergy.ca/news-item/construction-starts-on-urban-heat-recovery-centre/"]},
+ C2:{p:["The June 2021 heat dome killed 526 people in BC. The coroner counted 13 deaths in the North Shore and Coast Garibaldi health area, and the North Shore News reported 9 in North Vancouver."],
+  li:["Since the 2024 BC Building Code, new homes must be designed to keep at least one living space at or below 26°C. There is no provincial maximum-temperature rule for existing rentals, and no City \"right to cool\" bylaw was found.",
+   "Flooding: new buildings in low-lying areas must be built above 4.5 m, a level set in 2014. The City is also planning dikes along Mackay Creek.",
+   "Wildfire: the City's 2020 Community Wildfire Protection Plan made 41 recommendations.",
+   "Tree canopy, cooling centres and stormwater upgrades are the main City tools, along with emergency planning with the Province and Vancouver Coastal Health."],
+  s:["https://www2.gov.bc.ca/assets/gov/birth-adoption-death-marriage-and-divorce/deaths/coroners-service/statistical/heat_related_deaths_in_bc_knowledge_update.pdf","https://www.nsnews.com/amp/local-news/nine-heat-related-deaths-in-north-vancouver-linked-to-unprecedented-heat-dome-4721537","https://thenarwhal.ca/bc-renters-extreme-heat-right-to-cool/","https://www.cnv.org/Home-Property/Safety/Flood-Hazards","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Fire/Community-Wildfire-Protection-Plan.pdf"]},
+ S1:{p:["Childcare and seniors' care are mainly provincial. The Province funds $10-a-day childcare, and Vancouver Coastal Health licenses centres. The City's role is land, buildings, permits and partnerships."],
+  li:["The City's Child Care Action Plan (2021 to 2031) targets 1,063 new licensed spaces. 211 had been created by July 2025.",
+   "The City built a childcare centre and fieldhouse at Mahon Park, which opened in July 2025.",
+   "The new Silver Harbour Seniors' Activity Centre opened in 2026 inside the Harry Jerome complex, offering more than 70 programs.",
+   "The North Shore Neighbourhood House site includes adult day and overnight respite care."],
+  s:["https://www.cnv.org/community-environment/social-planning/child-care","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Initiatives-and-Policies/Child-Care-Action-Plan-2021-to-2031.pdf","https://www.cnv.org/City-Hall/News-Room/News-Releases/2025/7/3/City-of-North-Vancouver-Opens-Innovative-Childcare-and-Fieldhouse-at-Mahon-Park","https://www.cnv.org/City-Hall/News-Room/News-Releases/2026/6/3/New-HJCRC-and-Silver-Harbour-Seniors%E2%80%99-Activity-Centre-to-Open-July-25,-2026"]},
+ S3:{p:["Most social services are funded by the Province. The City funds non-profits through grants and its own facilities."],
+  li:["Community Grants give up to $15,000 per organization, with two intakes a year. The first round of 2024 awarded $198,300, and the second round of 2025 awarded $73,850.",
+   "The City's grant to the North Vancouver City Library was about $5.7 million in 2025.",
+   "Multi-year operating funding for a program is a bigger, ongoing commitment than a one-time grant. It would come out of the property tax budget."],
+  s:["https://www.cnv.org/community-environment/grants-funding/community-grants","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Grants/Round-One-2024-Community-Grant-Recommendations-Report-to-Council.pdf","https://www.nvcl.ca/sites/default/files/2026-05/2025_Library_SOFI.pdf"]},
+ S2:{p:["The North Vancouver RCMP detachment polices both the City and the District. The City pays 90% of its share of the RCMP contract, and the federal government pays 10%."],
+  li:["The City's RCMP unit had 68 authorized officers in 2024. The City's police budget is $21.6 million in 2026, up from $20.7 million in 2025.",
+   "Homeless counts are a one-night snapshot and miss people. A longer 6-day count in 2020 found 212 people.",
+   "The Lookout shelter at 705 West 2nd St has about 40 beds, plus transitional suites, and is funded by BC Housing."],
+  tbl:{h:["North Shore homeless count","Unsheltered","Sheltered","Total"],r:[["2020","46","75","121"],["2023","51","117","168"],["2025","85","83","168"]]},
+  s:["https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/criminal-justice/police/publications/statistics/police-resources/police-resources-in-bc-2024.pdf","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/City-Finances/2026/2026_Operating_Budget.pdf","https://www.nsnews.com/local-news/north-shores-unsheltered-homeless-numbers-climb-sharply-11026821","https://www.cnv.org/Community-Environment/Housing/Homelessness","https://lookoutsociety.ca/lookout_projects/emergency-shelters-year-round/"]},
+ Y1:{p:["The City's main safety costs are its RCMP contract ($21.6 million in 2026) and bylaw enforcement (about $1 million). Health-led crisis services on the North Shore are mostly funded by the Province and Vancouver Coastal Health."],
+  li:["Car 22 pairs a police officer with a Vancouver Coastal Health clinician for mental-health calls. It started in 2022 and runs daily from noon to 8 p.m.",
+   "CRCL is a civilian crisis team (no police) run by CMHA North and West Vancouver since 2021, for adults 19 and over.",
+   "The City's police budget rose $850,000 in 2026, driven by RCMP contract costs and specialized teams.",
+   "One 2026 mayoral candidate proposes replacing the RCMP with a municipal police force. Council has made no decision to switch."],
+  s:["https://www.vch.ca/en/news/vancouver-coastal-health-north-vancouver-rcmp-and-west-vancouver-police-department-launch-car","https://bc.cmha.ca/news/crcl-crisis-response-community-led/","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/City-Finances/2026/2026_Operating_Budget.pdf","uby"]},
+ M1:{p:["Council endorsed a 10-year Mobility Strategy unanimously in April 2022. Since then the City has built a network of protected bike and scooter lanes (\"mobility lanes\"), sometimes by removing parking or a traffic lane."],
+  li:["Strategy targets for 2030: half of all trips by walking, cycling or transit (35% in 2021), no increase in peak-hour car trips, and zero road deaths or serious injuries.",
+   "Built so far includes the Esplanade complete street (about $7.5 million, approved unanimously in 2021), the 1st Street lane (TransLink reports cycling there doubled), a two-way lane on West Grand Boulevard that replaced a car lane in 2020, St. Andrews Ave traffic calming (2022 to 2024), and the Crosscut Bridge over Highway 1 (opened Aug 2026, about $17 million).",
+   "On St. Andrews, the City revised the design after feedback. The final version removed about 6 parking spaces, down from about 24 in the first design.",
+   "Supporters point to safety and rising use. Some business owners and residents say loading, deliveries and customer parking have suffered, and that consultation came too late.",
+   "Council has made no decision about bike lanes on Lonsdale Avenue itself."],
+  s:["https://www.cnv.org/City-Hall/News-Room/News-Releases/2022/4/13/City-Adopts-10-Year-Mobility-Strategy","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Transportation-Resources/Mobility-Strategy-2022.pdf","https://letstalk.cnv.org/st-andrews-safety-improvements-project","https://www.cnv.org/City-Hall/News-Room/News-Releases/2026/8/20/City-of-North-Vancouver-opens-new-Crosscut-Bridge-today"]},
+ M2:{p:["Bridge and highway traffic is mostly outside City control. The Province owns the bridges and Highway 1, and TransLink runs transit. The City's tools are its own streets, land use near transit, and advocacy."],
+  li:["The Ironworkers Memorial Bridge carried about 130,700 vehicles per weekday in 2025, 6% more than in 2019, making it the most congested crossing in Metro Vancouver per lane (District of North Vancouver analysis). Lions Gate carries about 60,000 a day.",
+   "The Province finished the Lower Lynn interchange work in 2022 for about $200 million. A later review found modest gains, such as afternoon trips toward the bridge dropping from about 12 to 10 minutes.",
+   "Metrotown to North Shore bus rapid transit (21 km, about 60,000 daily riders forecast) got planning and design money in TransLink's 2025 plan. Construction is not funded.",
+   "The R2 RapidBus is being extended from Phibbs Exchange to Metrotown (TransLink sources say 2026 or 2027).",
+   "A 2020 provincial study found five possible rapid transit crossings of Burrard Inlet. None has been chosen or funded. In 2026 the Province began studying the Ironworkers corridor."],
+  s:["https://www.nsnews.com/local-news/ironworkers-bridge-the-most-congested-in-metro-vancouver-report-finds-12148809","https://news.gov.bc.ca/releases/2022TRAN0072-001149","https://www.translink.ca/translink/plans-and-projects/projects/rapid-transit-projects/bus-rapid-transit","https://news.gov.bc.ca/releases/2020TRAN0144-001729"]},
+ P1:{p:["Council approved the Curb Access and Parking Plan 4-3 on April 14, 2025. Buchanan, Girard, McIlroy and Valente voted for it; Back, Bell and Shahriari voted against. Pay parking rolled out on Lonsdale's commercial blocks from September 17, 2025."],
+  tbl:{h:["Time parked","Cost"],r:[["First 30 minutes","Free (must register)"],["Next 30 minutes","$1.00"],["After 1 hour, 9 a.m. to 6 p.m.","$3.00 per hour"],["After 1 hour, 6 p.m. to 9 p.m.","$2.00 per hour"],["9 p.m. to 9 a.m.","Free"]]},
+  li:["Pay parking runs 9 a.m. to 9 p.m., seven days a week. You pay by the Passport Parking app or by card at a pay station. Cash is not accepted.",
+   "The stated goal is to keep no more than 85% of spaces full, so drivers can find a spot. Net revenue goes to a reserve for public safety and street improvements.",
+   "The City promised to monitor results through 2026 and adjust rates block by block. As of mid-October 2026 no review or rate change has been published.",
+   "Some Lower Lonsdale business owners spoke against the plan before the vote. Business associations were cautiously supportive and said they would watch the impact."],
+  s:["https://www.cnv.org/streets-transportation/parking/pay-parking","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Council-Meeting-Minutes/2025/2025-04-14-Regular-Council-Meeting-Minutes-April-14-2025.pdf","https://www.cnv.org/City-Hall/News-Room/News-Releases/2025/9/17/Changes-begin-to-improve-parking-access-across-the-City-of-North-Vancouver","https://www.thenorthshorelocal.com/lower-lonsdale-businesses-slam-cnvs-paid-parking-plan/"]},
+ P2:{p:["The same 2025 plan also changed residential parking. Permit zones now cover 2 to 3 blocks, and residents of apartment buildings are eligible."],
+  li:["Resident permits went from $2.10 a month, a price unchanged for many years, to $8.33 a month for a first vehicle and $12.50 for a second. A low-income permit stays at $2.10.",
+   "For comparison, a typical City of Vancouver resident permit costs about $105 a year (about $8.75 a month).",
+   "The 2026 draft budget expects $7.15 million in parking revenue, up from $6.62 million in 2025.",
+   "At the new Harry Jerome centre, council approved 3 free hours then $3 an hour (6-1 in May 2026, Back opposed).",
+   "Supporters say pricing keeps spaces turning over for customers. Critics say it adds a cost for residents, visitors and shoppers."],
+  s:["https://www.cnv.org/city-services/streets-and-transportation/parking-in-the-city/resident-and-visitor-parking","https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/City-Finances/2026/2026_Draft_Operating_Budget.pdf","https://vancouver.ca/streets-transportation/buy-your-annual-or-short-term-or-visitor-parking-permit.aspx","https://www.nsnews.com/local-news/north-vancouver-city-oks-pay-parking-rates-for-new-harry-jerome-rec-centre-12279649"]}
+};
 
 /* Source keys used in candidate cells. "key:arg" keys expand through SRC_PATTERNS. */
 var SRC={
@@ -528,7 +679,12 @@ function align(u,p){return 100*(1-Math.abs(u-p)/4);}
 
 /* Resolves a source key ("nsqa", "ch:Don-Bell") or raw URL to {t,u}. Null if unknown. */
 function srcLink(k){
-  if(/^https?:\/\//.test(k))return {t:k.replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,""),u:k};
+  if(/^https?:\/\//.test(k)){
+    var parts=k.replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,"").split("/"),last=parts[parts.length-1];
+    try{last=decodeURIComponent(last);}catch(e){}
+    if(last.length>48)last=last.slice(0,45)+"...";
+    return {t:parts.length>2?parts[0]+"/…/"+last:parts.join("/"),u:k};
+  }
   if(SRC[k])return SRC[k];
   var i=k.indexOf(":"),p=i>0&&SRC_PATTERNS[k.slice(0,i)];
   return p?{t:p.t,u:p.u.replace("$",k.slice(i+1))}:null;
@@ -667,7 +823,7 @@ function sanitizeState(raw,cats,questions){
 var KEY="nv2026-ballot-match-v1";
 var RUNS=2000;
 var CLOSE_CALL=3;
-var S={step:"intro",i:0,ans:{},w:{},db:{},detail:null,tab:"mayor",sort:"match",offOpen:false,msg:""};
+var S={step:"intro",i:0,ans:{},w:{},db:{},detail:null,tab:"mayor",sort:"match",offOpen:false,infoOpen:false,msg:""};
 CATS.forEach(function(c){S.w[c.id]=1;});
 
 function el(id){return document.getElementById(id);}
@@ -729,6 +885,16 @@ function sourcesHtml(keys){
   if(!links.length)return '';
   return '<p class="small">Sources: '+links.map(function(s){return '<a href="'+esc(s.u)+'" target="_blank" rel="noopener noreferrer">'+esc(s.t)+'</a>';}).join(' &middot; ')+'</p>';
 }
+function infoHtml(q){
+  var d=INFO[q.id];
+  if(!d)return '';
+  var h='<details class="info"'+(S.infoOpen?' open':'')+' ontoggle="S.infoOpen=this.open"><summary>More info: background on this issue</summary>';
+  (d.p||[]).forEach(function(t){h+='<p>'+esc(t)+'</p>';});
+  if(d.li&&d.li.length)h+='<ul>'+d.li.map(function(t){return '<li>'+esc(t)+'</li>';}).join('')+'</ul>';
+  if(d.tbl)h+='<div class="itbl"><table><thead><tr>'+d.tbl.h.map(function(t){return '<th>'+esc(t)+'</th>';}).join('')+'</tr></thead><tbody>'+
+    d.tbl.r.map(function(r){return '<tr>'+r.map(function(t){return '<td>'+esc(t)+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div>';
+  return h+sourcesHtml(d.s)+'<p class="small muted">A neutral summary of public sources as of October 15, 2026. It is not scored.</p></details>';
+}
 
 /* =========================================================
    NAVIGATION + ACTIONS
@@ -736,7 +902,7 @@ function sourcesHtml(keys){
 function go(step,i){
   S.step=step;if(typeof i==="number")S.i=i;
   var a=step==="q"&&S.ans[QUESTIONS[S.i].id];
-  S.offOpen=!!(a&&a.type==="off");S.msg="";
+  S.offOpen=!!(a&&a.type==="off");S.msg="";S.infoOpen=false;
   save();render();window.scrollTo(0,0);
 }
 function startNew(){S.ans={};S.db={};CATS.forEach(function(c){S.w[c.id]=1;});S.detail=null;go("q",0);}
@@ -808,7 +974,7 @@ function qView(){
   var q=QUESTIONS[S.i],c=cat(q.cat),a=S.ans[q.id],isOff=a&&a.type==="off";
   var h='<div class="row spread small muted"><span>'+esc(c.name)+'</span><span>Question '+(S.i+1)+' of '+QUESTIONS.length+'</span></div>'+
   '<div class="prog"><i style="width:'+Math.round(S.i/QUESTIONS.length*100)+'%"></i></div>'+
-  '<div class="card"><h2>'+esc(q.q)+'</h2><div class="opts" role="group" aria-label="Answer choices">';
+  '<div class="card"><h2>'+esc(q.q)+'</h2>'+infoHtml(q)+'<div class="opts" role="group" aria-label="Answer choices">';
   optionOrder(q).forEach(function(idx){
     var on=a&&a.type==="opt"&&a.idx===idx;
     h+='<button class="opt'+(on?' on':'')+'" aria-pressed="'+(on?'true':'false')+'" onclick="pick('+idx+')">'+esc(q.o[idx][0])+'</button>';
