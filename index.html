@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>North Van 2026 Ballot Match</title>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#F2F5F7; --surface:#FFFFFF; --ink:#13202B; --muted:#55666F; --line:#D3DCE2;
+  --accent:#1F5F7A; --accent-ink:#FFFFFF; --soft:#E6EEF2; --warn:#8A5A00; --warnbg:#FFF3D6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1A22; --surface:#16252F; --ink:#E8EEF2; --muted:#9DADB8; --line:#2A3C48;
+    --accent:#7DBAD3; --accent-ink:#0F1A22; --soft:#1E3240; --warn:#F2C770; --warnbg:#3A2F14;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1A22; --surface:#16252F; --ink:#E8EEF2; --muted:#9DADB8; --line:#2A3C48;
+  --accent:#7DBAD3; --accent-ink:#0F1A22; --soft:#1E3240; --warn:#F2C770; --warnbg:#3A2F14;
+}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+  font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+h1,h2,h3{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;line-height:1.2;margin:0 0 .5em;font-weight:600}
+h1{font-size:clamp(1.9rem,5vw,2.8rem)}
+h2{font-size:1.5rem}
+h3{font-size:1.15rem}
+p{margin:0 0 .9em}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 16px 56px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+.muted{color:var(--muted)}
+.small{font-size:.875rem}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:11px 18px;font-weight:600}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.spread{justify-content:space-between}
+
+/* progress */
+.prog{height:6px;background:var(--soft);border-radius:3px;overflow:hidden;margin:6px 0 22px}
+.prog>i{display:block;height:100%;background:var(--accent);transition:width .25s}
+
+/* options */
+.opts{display:grid;gap:10px;margin:18px 0}
+.opt{display:block;width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:9px;padding:13px 15px;line-height:1.45}
+.opt:hover{border-color:var(--accent)}
+.opt.on{border-color:var(--accent);background:var(--soft);box-shadow:inset 4px 0 0 var(--accent)}
+.opt.alt{border-style:dashed}
+.axis{display:flex;justify-content:space-between;gap:12px;font-size:.8rem;color:var(--muted)}
+textarea{width:100%;min-height:84px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;resize:vertical}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.offpanel{border:1px dashed var(--accent);border-radius:9px;padding:14px;margin:-2px 0 14px;background:var(--surface)}
+
+/* weights */
+.wrow{display:grid;grid-template-columns:1fr;gap:8px;padding:12px 0;border-top:1px solid var(--line)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid var(--line);background:var(--surface);border-radius:7px;padding:6px 11px;font-size:.9rem}
+.seg button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+@media(min-width:700px){.wrow{grid-template-columns:minmax(220px,1fr) auto;align-items:center}}
+
+/* profile bars */
+.pbar{display:grid;grid-template-columns:1fr;gap:4px;padding:10px 0;border-top:1px solid var(--line)}
+.track{position:relative;height:8px;background:var(--soft);border-radius:4px;margin:8px 6px}
+.track i{position:absolute;top:-5px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--accent);border:3px solid var(--surface);box-shadow:0 0 0 1px var(--accent)}
+.chip{display:inline-block;font-size:.75rem;border:1px solid var(--line);border-radius:99px;padding:1px 8px;color:var(--muted);margin-left:6px;vertical-align:middle}
+
+/* matrix */
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:900px;font-variant-numeric:tabular-nums}
+th,td{padding:0;text-align:center;border-bottom:1px solid var(--line)}
+thead th{position:sticky;top:0;background:var(--surface);font-weight:600;font-size:.8rem;padding:10px 4px;vertical-align:bottom;z-index:2}
+th.name,td.name{position:sticky;left:0;background:var(--surface);text-align:left;padding:8px 12px;min-width:170px;z-index:1;border-right:1px solid var(--line)}
+thead th.name{z-index:3}
+td.num{padding:8px 6px;min-width:64px}
+td.cell{min-width:72px}
+td.cell button{width:100%;height:100%;min-height:46px;border:0;font-weight:600;font-variant-numeric:tabular-nums;border-radius:0}
+td.cell button small{display:block;font-weight:400;font-size:.65rem;opacity:.85;line-height:1}
+td.cell.sel button{outline:3px solid var(--ink);outline-offset:-3px}
+td.empty{color:var(--muted);background:repeating-linear-gradient(45deg,transparent 0 6px,var(--soft) 6px 7px)}
+tr.limited td.name{opacity:.85}
+.dim{opacity:.4}
+.flag{display:inline-block;background:var(--warnbg);color:var(--warn);font-size:.7rem;border-radius:4px;padding:1px 6px;margin-left:6px}
+.tabs{display:flex;gap:8px;margin:14px 0}
+.tabs button{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 16px;font-weight:600}
+.tabs button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.detail{margin-top:14px;border-left:4px solid var(--accent)}
+.legend{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);flex-wrap:wrap}
+.legend i{display:inline-block;width:150px;height:10px;border-radius:5px;background:linear-gradient(90deg,rgb(233,201,168),rgb(238,240,236),rgb(46,125,116))}
+details{margin:12px 0}
+summary{cursor:pointer;font-weight:600}
+.dbtoggle{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+.profile{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);display:grid;gap:4px}
+.profile p{margin:0}
+a{color:var(--accent)}
+.flagline{background:var(--warnbg);color:var(--warn);border-radius:6px;padding:6px 10px;margin:8px 0}
+select{font:inherit;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:6px 8px}
+@media (prefers-reduced-motion:reduce){.prog>i{transition:none}}
+</style>
+</head>
+<body>
+<main class="wrap" id="app"></main>
+
+<script id="data">
+/* =========================================================
+   DATA: categories, questions, candidate coding
+   Scale for every category: 1 (left pole) to 5 (right pole).
+   ========================================================= */
+var CATS=[
+ {id:"H",name:"Housing & density",short:"Housing",lo:"Infrastructure first, slower growth",hi:"Faster growth, more density"},
+ {id:"T",name:"Tenants & affordable housing",short:"Tenants",lo:"Market-led, light City role",hi:"Strong City role for tenants & non-market housing"},
+ {id:"M",name:"Mobility & street space",short:"Mobility",lo:"Protect driving & road capacity",hi:"Prioritize walking, biking & transit"},
+ {id:"P",name:"Parking",short:"Parking",lo:"Free or cheap parking",hi:"Priced parking manages demand"},
+ {id:"F",name:"Taxes, spending & project risk",short:"Fiscal",lo:"Restraint & tough scrutiny",hi:"Invest in amenities even if costs rise"},
+ {id:"G",name:"Public engagement",short:"Engagement",lo:"Decide efficiently",hi:"Maximize input, willing to pause or reverse"},
+ {id:"L",name:"Public land & parks",short:"Land & parks",lo:"Use public land for housing or revenue",hi:"Protect parks & green space first"},
+ {id:"E",name:"Local economy & small business",short:"Economy",lo:"Hands-off: keep rules and costs light",hi:"City invests in and plans commercial districts"},
+ {id:"C",name:"Climate & resilience",short:"Climate",lo:"Cost first, avoid mandates",hi:"Ambitious targets & mandates"},
+ {id:"S",name:"Community services",short:"Services",lo:"Narrow City role, leave it to others",hi:"City funds and leads services"},
+ {id:"Y",name:"Street disorder & public safety",short:"Safety",lo:"Enforcement first",hi:"Prevention & health-led first"}
+];
+
+var QUESTIONS=[
+ {id:"H1",cat:"H",q:"A mid-rise rental building is proposed on a transit corridor near you. Council should:",o:[
+  ["Require schools, parks and roads to be in place or funded first, even if that delays approval.",1],
+  ["Approve it only with a lower height and major community benefits.",2],
+  ["Approve it. The housing need justifies it, and approvals should be streamlined.",4],
+  ["Approve it and pre-zone more corridors so fewer projects need case-by-case votes, even if neighbours lose a say on each building.",5]]},
+ {id:"H2",cat:"H",q:"The Province now allows small multi-unit housing (townhomes, multiplexes) in single-family areas. The City should:",o:[
+  ["Limit it as far as provincial rules allow.",1],
+  ["Comply at the minimum level and keep strict neighbourhood design controls.",2],
+  ["Embrace it with simpler rules and incentives for homeowners.",4],
+  ["Go further than the Province requires, with broader heights and housing types.",5]]},
+ {id:"T1",cat:"T",q:"When older rental buildings are redeveloped, the City should:",o:[
+  ["Leave it to developers and the market. Focus on getting more supply built.",1],
+  ["Require developer-paid relocation help at the current provincial standard.",2],
+  ["Adopt a binding relocation bylaw with a right to return and replacement rental.",4],
+  ["Also fund a City tenant advocate and restrict demolition of affordable older stock.",5]]},
+ {id:"T2",cat:"T",q:"The City's main lever for housing affordability should be:",o:[
+  ["Speed up approvals and cut fees for any new housing supply.",1],
+  ["Negotiate a share of below-market units in private developments.",2],
+  ["Dedicate City land and funding to non-profit and non-market housing.",4],
+  ["Treat non-market housing as core City business with dedicated ongoing funding.",5]]},
+ {id:"M1",cat:"M",q:"A busy street has a lane used for parking and loading. A protected bike lane would replace it. You:",o:[
+  ["Keep parking and loading. Bike lanes belong on quieter parallel streets, even if those routes are less direct.",1],
+  ["Only if business impacts are measured first and mitigated, and traffic doesn't get worse.",2],
+  ["Support it where it connects into a network, relocating some parking and loading.",4],
+  ["Prioritize safe walking, biking and transit space even where it reduces car lanes or parking.",5]]},
+ {id:"M2",cat:"M",q:"On North Shore congestion, the City's energy should go mainly to:",o:[
+  ["Pressing senior governments for more bridge and road capacity (lanes, a new crossing), even if transit improvements wait.",1],
+  ["A mix of capacity improvements and incremental transit.",2],
+  ["Rapid transit and more frequent local transit.",4],
+  ["Reducing car trips through land use, active transport and transit, even if driving gets less convenient.",5]]},
+ {id:"P1",cat:"P",q:"Pay parking on Lonsdale's commercial streets:",o:[
+  ["Remove it entirely.",1],
+  ["Keep it but cut the hours (for example, end at 6 pm) and extend the free time.",2],
+  ["Keep the current system. It keeps spaces available.",4],
+  ["Expand or raise pricing where demand is high, and use revenue for transit and active transport.",5]]},
+ {id:"P2",cat:"P",q:"On-street parking should mainly serve:",o:[
+  ["Residents and customers, kept free or cheap for them.",1],
+  ["Customers and residents, with short free-time windows.",2],
+  ["Whoever values it most, priced so spaces turn over.",4],
+  ["A managed public asset, priced to nudge people toward transit and walking.",5]]},
+ {id:"F1",cat:"F",q:"Large City projects such as the Harry Jerome rebuild carry cost risk. For major City projects you would:",o:[
+  ["Pause new big projects until debt capacity and costs are clear, even if amenities are delayed for years.",1],
+  ["Require independent cost review and public cost dashboards before each major project.",2],
+  ["Proceed with amenities residents want, with active oversight.",4],
+  ["Invest in amenities for the long term, accepting higher taxes or borrowing.",5]]},
+ {id:"F2",cat:"F",q:"If a tax increase is needed to maintain services, you prefer:",o:[
+  ["Cut spending and programs first. The lowest possible increase.",1],
+  ["An increase at or below inflation, trimming nonessentials.",2],
+  ["Moderate above-inflation increases to maintain and grow services.",4],
+  ["Raise what's needed to expand services and infrastructure.",5]]},
+ {id:"G1",cat:"G",q:"Before a major land-use decision (like a corridor redesign), the City should:",o:[
+  ["Rely on staff expertise. Consult, but decide efficiently, even if some residents feel unheard.",1],
+  ["Consult broadly but on a fixed timeline.",2],
+  ["Hold longer consultation and more public hearings, even if it delays things.",4],
+  ["Give residents decisive input (surveys, assemblies) and be willing to pause or reverse.",5]]},
+ {id:"G2",cat:"G",q:"Public input at council meetings:",o:[
+  ["The current short speaking slots are fine. Efficiency matters.",1],
+  ["Keep the format and add surveys and online options.",2],
+  ["Add Q&A formats and regular town halls where council reports on promises.",4],
+  ["Substantially rethink it: standing resident panels, much more direct dialogue.",5]]},
+ {id:"L1",cat:"L",q:"A vacant City-owned lot in a dense area is slated for mixed-use redevelopment. You would:",o:[
+  ["Develop it for housing and revenue, even if the area gets no new park space.",1],
+  ["Develop it but require public open space on site.",2],
+  ["Keep part as a park and develop the rest, or move density elsewhere.",4],
+  ["Make it a permanent park.",5]]},
+ {id:"L2",cat:"L",q:"Where parks and housing compete for limited City land:",o:[
+  ["Housing comes first.",1],
+  ["Housing first on transit corridors, with parks delivered through new developments.",2],
+  ["Parks and green space first, using density bonuses to fund housing elsewhere.",4],
+  ["Strongly protect existing green space and buy more.",5]]},
+ {id:"E1",cat:"E",q:"To help small business, City Hall's top focus should be:",o:[
+  ["Cut red tape, permit times and fees. Otherwise stay out of the way.",1],
+  ["Protect customer access (parking, loading) and reduce business costs.",2],
+  ["Invest in districts: public realm, business improvement areas, events.",4],
+  ["Lead big economic strategies and anchors (Health Innovation District, major corridors).",5]]},
+ {id:"E2",cat:"E",q:"The 20-year Lonsdale Great Street plan:",o:[
+  ["Pause or scrap it to protect traffic, parking and existing businesses, even if the street stays as it is for years.",1],
+  ["Adopt near-term pieces only and revisit the rest later.",2],
+  ["Endorse the vision and refine it in stages.",4],
+  ["Accelerate delivery, accepting more construction disruption sooner.",5]]},
+ {id:"C1",cat:"C",q:"Building and energy policy:",o:[
+  ["Avoid new mandates. Homeowner and builder costs come first, even if emissions fall more slowly.",1],
+  ["Use incentives such as rebates, with no new mandates.",2],
+  ["Set requirements for new buildings (low-carbon, cooling) with flexibility.",4],
+  ["Strong mandates and retrofits, even at higher cost.",5]]},
+ {id:"C2",cat:"C",q:"Spending on extreme heat, smoke and flooding preparedness:",o:[
+  ["Minimal. Existing emergency services handle it.",1],
+  ["Targeted at the most vulnerable people.",2],
+  ["Significant: tree canopy, cooling spaces, stormwater upgrades.",4],
+  ["A top budget priority, including indoor temperature standards for apartments.",5]]},
+ {id:"S1",cat:"S",q:"On childcare and seniors' services, the City should:",o:[
+  ["Leave it mainly to the Province and community groups, even if waitlists stay long.",1],
+  ["Facilitate with land and permits but not fund.",2],
+  ["Fund and build on City land with non-profit partners.",4],
+  ["Lead and fund substantially, treating it as a core service, even if taxes rise.",5]]},
+ {id:"S3",cat:"S",q:"A local non-profit asks the City for multi-year operating funding for a youth or seniors program. The City should:",o:[
+  ["Decline. Running programs is for the Province and charities, even if the program shrinks.",1],
+  ["Offer space or one-time grants, but no ongoing funding.",2],
+  ["Provide multi-year funding tied to clear results.",4],
+  ["Fund it as a core service and expand programs like it, even if taxes rise.",5]]},
+ {id:"S2",cat:"Y",q:"On street disorder, homelessness and public safety:",o:[
+  ["Enforcement and policing come first.",1],
+  ["Enforcement paired with shelter coordination.",2],
+  ["Prevention, supportive housing and harm-reduction coordination with partners.",4],
+  ["Prioritize community-based and health-led responses over enforcement.",5]]},
+ {id:"Y1",cat:"Y",q:"The City has new money for public safety. It should go mainly to:",o:[
+  ["More bylaw officers and police presence in commercial areas, even if outreach stays at current levels.",1],
+  ["Mostly enforcement, plus some outreach workers.",2],
+  ["Mostly outreach, mental-health crisis teams and supportive housing, plus some enforcement.",4],
+  ["Health-led crisis response and supportive housing, even if enforcement stays at current levels.",5]]}
+];
+
+/* Source keys used in candidate cells. "key:arg" keys expand through SRC_PATTERNS. */
+var SRC={
+ nsqa:{t:"North Shore News candidate Q&A (Oct 5, 2026)",u:"https://www.nsnews.com/local-news/civic-election-2026-qa-with-city-of-north-vancouver-candidates-12845369"},
+ nsmay:{t:"North Shore News mayoral debate (Oct 5, 2026)",u:"https://www.nsnews.com/local-news/standing-room-only-crowd-as-city-of-north-van-mayoralty-candidates-debate-density-transparency-12861073"},
+ nscoun:{t:"North Shore News council forum (Oct 10, 2026)",u:"https://www.nsnews.com/local-news/north-vancouver-city-council-hopefuls-talk-trees-housing-and-flight-ps752-memorial-in-all-candidates-meeting-12887285"},
+ nspark:{t:"North Shore News on the pay parking vote",u:"https://www.nsnews.com/local-news/paid-parking-coming-to-city-of-north-vancouvers-busiest-streets-10523928"},
+ cr:{t:"Council Record: every recorded 2022-26 council vote",u:"https://councilrecord.ca/city.html"},
+ hub26:{t:"HUB Cycling 2026 candidate survey responses",u:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSac_OUJxD_F6qWXuqEeO-PtZbhPqJ3X763NmRqliobDGRpfzdKun5XLWnFKGHSZoCGuUolSo16XL9o/pubhtml"},
+ hub22:{t:"HUB Cycling 2022 survey (past stance)",u:"https://hubcycling.ca/sites/default/files/imce/22_-_north_vancouver_city_election_long_answers.pdf"},
+ uby:{t:"The Ubyssey on the mayoral race",u:"https://ubyssey.ca/news/municipal-elections-north-vancouver-mayor-race/"},
+ vsmay:{t:"Vancouver Sun on the mayoral race",u:"https://vancouversun.com/news/running-mayor-north-vancouvers-west-vancouver"},
+ vsking:{t:"Vancouver Sun on King's record and new charges (Oct 15, 2026)",u:"https://vancouversun.com/news/north-vancouver-mayoral-candidate-criminal-record-firearms-charges"},
+ vsking25:{t:"Vancouver Sun on King's U.S. convictions (2025)",u:"https://vancouversun.com/news/national/north-vancouver-federal-candidate-us-convictions-illegal-firearms"},
+ vdlc:{t:"Vancouver and District Labour Council endorsements",u:"https://vdlc.ca/vdlc-endorsed-candidates-north-shore-sea-to-sky/"},
+ bns:{t:"Better North Shore endorsements",u:"https://www.betternorthshore.ca/endorsements-muni-oct-2026"},
+ min250714:{t:"Council minutes, July 14, 2025",u:"https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Council-Meeting-Minutes/2025/2025-07-14-Regular-Council-Meeting-Minutes-July-14-2025.pdf"},
+ min251117:{t:"Council minutes, Nov 17, 2025",u:"https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Council-Meeting-Minutes/2025/2025-11-17-Regular-Council-Meeting-Minutes-November-17-2025.pdf"},
+ min260126:{t:"Council minutes, Jan 26, 2026",u:"https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Council-Meeting-Minutes/2026/2026-01-26-Regular-Council-Meeting-Minutes-January-26-2026.pdf"},
+ min260420:{t:"Council minutes, Apr 20, 2026 (Great Street)",u:"https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Council-Meeting-Minutes/2026/2026-04-20-Regular-Council-Meeting-Minutes-April-20-2026.pdf"},
+ min260511:{t:"Council minutes, May 11, 2026",u:"https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Council-Meeting-Minutes/2026/2026-05-11-Regular-Council-Meeting-Minutes-May-11-2026.pdf"},
+ min260713:{t:"Council minutes, July 13, 2026",u:"https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Council-Meeting-Minutes/2026/2026-07-13-Regular-Council-Meeting-Minutes-July-13-2026.pdf"},
+ min260720:{t:"Council minutes, July 20, 2026",u:"https://www.cnv.org/-/media/City-of-North-Vancouver/Documents/Council-Meeting-Minutes/2026/2026-07-20-Regular-Council-Meeting-Minutes-July-20-2026.pdf"}
+};
+var SRC_PATTERNS={
+ ch:{t:"Chamber of Commerce Q&A",u:"https://www.nvchamber.ca/wp-content/uploads/2026/10/$.pdf"},
+ nvv:{t:"North Van Votes profile",u:"https://northvanvotes.ca/candidates/$"},
+ v4t:{t:"Vote4Tomorrow climate survey",u:"https://vote4tomorrow.ca/election-2026/north-vancouver-city-of/$/"},
+ vm:{t:"VoteMate profile",u:"https://votemate.org/bc2026/candidates/$"}
+};
+
+/* Candidate coding. Each cell is [position 1-5, confidence H/M/L, evidence note, [source keys or URLs]].
+   e = organisational endorsements, x = short neutral background note.
+   Based on public statements, campaign sites, surveys and recorded votes as of Oct 15, 2026.
+   Missing category = no stated position found. */
+var CANDS=[
+ {id:"buchanan",n:"Linda Buchanan",g:"mayor",inc:1,e:["VDLC","Better North Shore"],x:"Mayor since 2018. Called for a public inquiry into the wastewater plant overrun.",c:{
+  H:[4,"H","Says the City exceeded its provincial housing target; defended housing delivery at the mayoral debate",["nsmay","vsmay"]],
+  T:[4,"H","Rental, mid-market and non-market housing with stronger renter protections; NSNH Phase 2 on City land",["nsqa","nvv:cnv-mayor-buchanan-linda"]],
+  M:[4.5,"H","Delivering the 2022 Mobility Strategy; yes on all three HUB items; presses for BRT and bridge replacement",["ch:Linda-Buchanan","hub26"]],
+  P:[4,"H","Voted for pay parking (4-3, Apr 2025); promised a one-year review",["cr","nsmay"]],
+  F:[4,"H","Backed the 7.4% option with an extra capital transfer (2024); defends the 2.9% increase and the Swim Deck",["cr","nsmay"]],
+  G:[3,"L","Calls tree-bylaw scope a community conversation; no engagement reform proposed",["v4t:linda-buchanan","ch:Linda-Buchanan"]],
+  L:[2.5,"M","Non-market housing on public land; voted for the Harry Jerome lands density transfer; cites two new parks",["nvv:cnv-mayor-buchanan-linda","cr"]],
+  E:[5,"H","Voted for the Great Street plan (4-3, Apr 2026); Health Innovation District, new hotel",["cr","ch:Linda-Buchanan"]],
+  C:[4,"H","Delivering the 2024 Climate & Environment Strategy; 10/10 on Vote4Tomorrow incl. right to cool",["v4t:linda-buchanan","nsqa"]],
+  S:[4.5,"H","350+ new childcare spaces, family respite centre; voted for City childcare funding",["bns","cr"]],
+  Y:[4,"M","Says public safety is about prevention, preparedness and trust; North Shore Homelessness Action Initiative",["nvv:cnv-mayor-buchanan-linda"]]}},
+ {id:"mcgraw",n:"Mike McGraw",g:"mayor",x:"School trustee 2011-14. Says he takes no developer donations.",c:{
+  H:[2,"H","\"Not had a single person tell me we don't have enough density\"; infrastructure and costs known before density",["nsmay","nvv:cnv-mayor-mcgraw-mike"]],
+  T:[4.5,"H","Tenant protection bylaw \"with teeth\", right to return, Renter Concierge at City Hall",["nsqa","nvv:cnv-mayor-mcgraw-mike"]],
+  M:[2.5,"H","Says active-mobility work cost vehicle capacity and added congestion; wants balanced planning",["nsqa"]],
+  F:[2,"H","Cut discretionary spending to keep taxes low; questions Swim Deck upkeep; consolidated debt report",["nsmay","https://mcgraw4mayor.ca"]],
+  G:[4.5,"H","Independent City-run public input before decisions are final; review speaking limits; Meet the Mayor events",["nsqa","https://mcgraw4mayor.ca"]],
+  L:[4.5,"H","Protect the 100 block of East 1st as parkland; compare keep or lease before selling public land",["nvv:cnv-mayor-mcgraw-mike"]],
+  E:[2.5,"M","Cut red tape, streamline permits, protect employment land; no Great Street stance beyond resident input",["nsqa","nvv:cnv-mayor-mcgraw-mike"]],
+  C:[3,"M","Judge climate measures on results and cost; independent Lonsdale Energy review",["v4t:mike-mcgraw","nsqa"]],
+  S:[3,"L","Plan childcare and services before approving density",["vsmay"]]}},
+ {id:"kurvers",n:"Dave Kurvers",g:"mayor",x:"Proposes an external integrity commissioner. 1996 provincial candidate.",c:{
+  H:[2,"H","\"City is already dense enough\"; would ask the Province to exempt CNV from full 20-year pre-zoning",["nsmay","https://vote.kurvers.net/platform/growth-and-planning/"]],
+  T:[4,"H","Enforceable right to return at prior rent with interim top-up; non-market housing via partners, no land sales",["https://vote.kurvers.net/platform/housing/","nsqa"]],
+  M:[2.5,"H","A bike lane is not automatically an improvement; measure business impact; HUB maybe on all three",["ch:Dave-Kurvers","https://vote.kurvers.net/platform/getting-around/","hub26"]],
+  P:[2,"H","Says pay parking hurts downtown; keep the free period visible, merchant validation",["nsmay","https://vote.kurvers.net/platform/getting-around/"]],
+  F:[2,"H","Tie tax increases to inflation; budget stress tests; put surprise revenue into reserves and debt first",["nsmay","https://vote.kurvers.net/platform/getting-things-done/"]],
+  G:[3.5,"M","Show residents real alternatives before an OCP option is fixed",["https://vote.kurvers.net/platform/growth-and-planning/","nsmay"]],
+  L:[4.5,"H","Make the City-owned East First lands a permanent park; default to no sale of City land",["https://vote.kurvers.net/platform/growth-and-planning/"]],
+  E:[2,"H","One-week business licences, published permit standards, business-impact checks before curb changes",["ch:Dave-Kurvers"]],
+  C:[3,"M","Heat pumps with dual-energy backup, cooling in new buildings; neutral on right to cool",["nsqa","v4t:dave-kurvers"]],
+  S:[3,"L","Accessibility by design; health care is provincial, City helps residents reach services",["https://vote.kurvers.net/platform/safety-accessibility-community/"]],
+  Y:[4,"M","\"Public safety is bigger than policing\"; mental-health and outreach responses",["https://vote.kurvers.net/platform/safety-accessibility-community/"]]}},
+ {id:"king",n:"Oliver King",g:"mayor",x:"The Vancouver Sun reports 2011 U.S. convictions including unlawful firearms dealing, and 18 firearms charges laid in March 2026 that are before the courts. He did not respond to the Sun by deadline.",xs:["vsking","vsking25"],c:{
+  H:[2,"M","Supports new housing only where infrastructure can carry it; \"not simply more density\"",["nsqa"]],
+  M:[3.5,"M","Better transit, safer cycling and walking routes, commuter incentives; opposed EV charging expansion",["nsqa","v4t:oliver-king"]],
+  P:[1,"H","\"I'm going to remove all pay parking\"",["nsmay"]],
+  F:[1,"H","Would cut two-thirds of City staff; cut taxes and fees",["nsmay","v4t:oliver-king"]],
+  G:[3.5,"L","Campaign site promises residents a more meaningful voice before major decisions",["https://kingofparliament.ca/issues"]],
+  L:[4,"L","\"Generally against anything happening to nature\"; supports canopy, parks, greenways",["v4t:oliver-king"]],
+  E:[2,"M","Cut fees, red tape and bureaucracy; street markets and events",["nsqa"]],
+  C:[3,"L","Supports right to cool and construction-waste bylaws; neutral on building electrification",["v4t:oliver-king","nsqa"]],
+  S:[4,"L","Free school meals, two free seniors' homes; no funding detail",["uby","nsmay"]],
+  Y:[2,"L","Replace the North Van RCMP with a municipal police force",["uby"]]}},
+
+ {id:"back",n:"Holly Back",g:"council",inc:1,x:"City councillor since 2014.",c:{
+  H:[3,"M","Pre-zone smaller lots, coach-house strata; backed 2025 provincial alignment; lone no on a Jan 2026 option",["https://www.hollyback.ca/my-priorities.html","min260126"]],
+  T:[3.5,"M","Below-market units in new developments; protect rental stock; workforce housing for first responders",["nsqa"]],
+  M:[2.5,"M","Voted no on St Andrews design and West Grand closure; yes on HUB's 2026 items; wants bridge capacity",["min250714","hub26","https://www.hollyback.ca/my-priorities.html"]],
+  P:[2,"H","Voted no on pay parking (Apr 2025) and on Harry Jerome paid parking (May 2026)",["nspark","min260511"]],
+  F:[2.5,"M","\"Close eye on taxes\"; voted no on the 2025 revised plan; co-sponsored Swim Deck cost questions",["nsqa","min260720"]],
+  G:[3.5,"M","Raise public input at Council from 2 to 3 minutes; more public meetings",["https://www.hollyback.ca/my-priorities.html"]],
+  E:[3,"M","Voted no on the 20-year Great Street plan, yes on 2026 actions; backs BIA and health hub",["min260420","nsqa"]],
+  C:[3.5,"M","Continue the Climate Action Plan to net-zero 2050; Energy Step Code for new buildings",["nsqa"]],
+  S:[3.5,"L","Supports seniors and youth through other governments and businesses; no City funding commitment",["https://www.hollyback.ca/my-priorities.html"]],
+  Y:[3.5,"M","More shelter space, year-round warming centres, substance-use education with partners",["https://www.hollyback.ca/my-priorities.html"]]}},
+ {id:"bell",n:"Don Bell",g:"council",inc:1,x:"Former MP and former District of North Vancouver mayor.",c:{
+  H:[2,"H","Concerned about the rate of development; voted no on several density transfers and rental rezonings",["nvv:cnv-council-bell-don","cr"]],
+  T:[4,"M","Proposes a North Van Housing Authority; better protection for renters displaced by redevelopment",["nsqa"]],
+  M:[2.5,"H","Voted no on St Andrews and West Grand closure; wants vehicle and transit capacity on Second Narrows",["ch:Don-Bell","min250714"]],
+  P:[2,"H","Voted no on pay parking; moved 3-hour free Harry Jerome parking; wants free time reviewed",["nspark","min260511"]],
+  F:[2,"H","Reduce tax increases; voted no on the 2025 revised plan; seconded the wastewater inquiry motion",["https://donbell.ca","min260720"]],
+  G:[4.5,"M","\"More effective direct public engagement\"; Swim Deck motion answered public questions",["https://donbell.ca","min260720"]],
+  L:[3.5,"M","More neighbourhood parks, dog parks and courts; protect creeks",["nsqa"]],
+  E:[2.5,"M","Voted no on the 20-year Great Street plan, yes on 2026 actions; customer parking; review business tax ratio",["min260420","ch:Don-Bell"]],
+  C:[4,"M","Seconded the 26C indoor cooling standard (Jul 2026); canopy; electrify City fleet",["min260720","nsqa"]],
+  S:[4,"M","More childcare and recreation; backed a 50m pool and second ice sheet",["nvv:cnv-council-bell-don"]]}},
+ {id:"girard",n:"Angela Girard",g:"council",inc:1,e:["VDLC"],c:{
+  H:[4,"H","Moved the provincial-alignment OCP and zoning bylaws (Nov 2025); supports multiplexes and faster approvals",["min251117","https://angelagirard.ca/priorities/affordable-housing/"]],
+  T:[4.5,"H","Proposed stronger displaced-tenant compensation; mid-market and family rentals",["https://angelagirard.ca/priorities/affordable-housing/","ch:Angela-Girard"]],
+  M:[4.5,"H","All-ages bike network, Eastside Connector, rapid transit; voted yes on St Andrews and West Grand",["ch:Angela-Girard","cr","hub26"]],
+  P:[4.5,"H","Voted for pay parking (\"underpriced parking causes congestion\"); reinvest revenue by participatory budget",["nspark","nvv:cnv-council-girard-angela"]],
+  F:[4,"L","Helped deliver Harry Jerome and Neighbourhood House; wants a wastewater review",["nvv:cnv-council-girard-angela"]],
+  G:[3.5,"M","Engage earlier; consultation must reach people who don't show up; participatory budgeting",["nvv:cnv-council-girard-angela","nsqa"]],
+  L:[3.5,"L","City's first tree canopy target (24%); tree protection bylaw",["nvv:cnv-council-girard-angela"]],
+  E:[4.5,"H","Moved the Great Street endorsement (Apr 2026); BIAs, Health Innovation District; faster permits",["min260420","ch:Angela-Girard"]],
+  C:[4.5,"H","Moved the Cooling Strategy with a 26C indoor maximum (passed 7-0, Jul 2026); retrofits",["min260720"]],
+  S:[4.5,"H","Childcare on City land run by non-profits; 10-year Child Care Action Plan",["ch:Angela-Girard","nvv:cnv-council-girard-angela"]]}},
+ {id:"mcilroy",n:"Jessica McIlroy",g:"council",inc:1,e:["VDLC","Better North Shore"],x:"Works on building decarbonization at the Pembina Institute.",c:{
+  H:[4,"H","Non-market, multiplex and missing-middle housing; voted yes on provincial alignment and rental rezonings",["nsqa","min260713"]],
+  T:[4,"M","Partner on non-market, co-op and co-housing; moved a housing-as-a-human-right resolution",["nsqa","https://www.jessicamcilroy.com/at-city-hall"]],
+  M:[5,"M","Supported reducing car parking for mobility lanes (2022); 30 km/h streets; yes on HUB's 2026 items",["hub22","hub26","cr"]],
+  P:[4,"H","Voted for the Curb Access and Parking Plan and parking fee bylaws (Apr 2025)",["cr"]],
+  F:[4.5,"H","Moved the 2024 budget with an extra capital transfer (7.4%, lost 2-4)",["cr"]],
+  E:[4,"H","Seconded the Great Street endorsement (Apr 2026); permit streamlining",["min260420","ch:Jessica-McIlroy"]],
+  C:[5,"H","Chaired the Climate and Environment Task Force; moved updated GHG targets; multi-unit retrofit program",["https://www.jessicamcilroy.com/at-city-hall","nsqa"]],
+  S:[4,"L","Equitable, inclusive services; moved child-minding and arts funding motions",["https://www.jessicamcilroy.com/at-city-hall"]],
+  Y:[4,"M","Moved an alternate response plan for RCMP wellness checks; opioid emergency declaration",["https://www.jessicamcilroy.com/at-city-hall"]]}},
+ {id:"shahriari",n:"Shervin Shahriari",g:"council",inc:1,e:["VDLC"],x:"Says he opposed the Harbour Swim Deck; every recorded deck motion passed 7-0.",xs:["cr"],c:{
+  H:[2.5,"H","Sole no on several rezonings and an OCP amendment; seconded the provincial-alignment bylaws",["cr","https://www.nsnews.com/local-news/north-vancouver-city-council-advances-rental-development-despite-tree-loss-concerns-12570346"]],
+  T:[4,"H","Voted no on a rezoning over displaced-tenant support; pledges stronger protections",["nsqa","https://www.nsnews.com/local-news/north-vancouver-renoviction-policy-push-out-renters-6153071"]],
+  M:[2.5,"H","Voted no on St Andrews and West Grand citing consultation; backs BRT and more SeaBus service",["min250714","ch:Shervin-Shahriari"]],
+  P:[2,"H","Voted no on pay parking; wants fewer pay hours and free short-term parking",["nsqa","nvv:cnv-council-shahriari-shervin"]],
+  F:[2,"H","Moved a 2023 capital levy cut (lost 1-6); stronger business cases; reduce debt",["cr","https://www.shahriari.ca/policy"]],
+  G:[4.5,"H","Thorough engagement before any major decision; voted no on West Grand for lack of consultation",["https://www.shahriari.ca/policy","min250714"]],
+  L:[3.5,"M","Protect and grow green space; moved a mature-tree retention incentive (2023)",["nsqa","cr"]],
+  E:[2,"H","Voted no on the 20-year Great Street plan, yes on 2026 actions; parking relief for business",["min260420","ch:Shervin-Shahriari"]],
+  C:[3,"M","Trees, energy-efficient homes, resilient design; no new mandates proposed",["nsqa"]],
+  S:[3.5,"M","Moved reciprocal financial assistance for people with disabilities (May 2026)",["cr","https://voteshervin.ca"]]}},
+ {id:"valente",n:"Tony Valente",g:"council",inc:1,e:["VDLC","Better North Shore"],x:"Lone vote against the late-2025 provincial housing OCP and zoning changes, citing rushed consultation.",xs:["min251117"],c:{
+  H:[4,"H","Housing near transit corridors; voted for rezonings; opposed the 2025 provincial-alignment bylaws on process",["https://www.tonyvalente.ca/policy/","min251117"]],
+  T:[4,"M","Strengthen renter protections; co-op, social, non-market and workforce housing",["https://www.tonyvalente.ca/policy/","cr"]],
+  M:[5,"H","Former HUB North Shore chair; protected lanes, BRT with dedicated lanes; yes on St Andrews and West Grand",["hub22","hub26","ch:Tony-Valente"]],
+  P:[4,"H","Moved the amended pay parking plan with net revenue to street safety",["nspark"]],
+  F:[4,"M","Backed Harry Jerome and amenities; voted for the 6.9% 2024 budget, not the 7.4% option",["https://www.tonyvalente.ca/policy/","cr"]],
+  G:[4,"M","Said six months of OCP engagement was too short; council that works openly",["nvv:cnv-council-valente-tony","https://exa.ai/library/podcast/0jlc268p2v8/episode/y785n3w2mjx"]],
+  L:[3.5,"M","More green space through development; pocket parks, dog runs; voted for the West Grand park expansion",["https://www.tonyvalente.ca/policy/"]],
+  E:[4.5,"H","Voted for Great Street; BIAs, health and innovation cluster; fairer business tax",["https://www.tonyvalente.ca/policy/","min260420"]],
+  C:[4,"M","Energy-efficient buildings, heat and flood resilience, canopy; moved a green-roof zoning motion",["nsqa","cr"]],
+  S:[4,"M","Helped advance Harry Jerome, Silver Harbour seniors centre, Mahon Child Care",["nvv:cnv-council-valente-tony"]]}},
+
+ {id:"lai",n:"Max Lai",g:"council",x:"Ran for council in 2022. Former member of the City's transportation committee.",c:{
+  H:[4,"H","Make coach houses and multiplexes easier; expand the Housing Initiatives Grant",["https://maxlai.ca/housing/","vm:13557"]],
+  T:[4.5,"H","Inclusionary units to 30% at BC Housing levels; 20% workforce units with permanent rent protection",["https://maxlai.ca/housing/","ch:Max-Lai"]],
+  M:[4,"M","Several BRT lines, $25 low-income pass; yes on HUB's 2026 items",["ch:Max-Lai","hub26"]],
+  P:[4,"L","Pay parking should supplement transit alternatives",["vm:13557"]],
+  F:[3.5,"L","Expand amenities and facilities; transparency on tax increases; no tax target",["https://maxlai.ca/key-issues/","v4t:maxwell-lai"]],
+  G:[3.5,"M","Town halls, public meetings, coffee talks; lower the voting age to 16",["vm:13557"]],
+  L:[4,"L","Apply the 3-30-300 tree rule in Central and Lower Lonsdale",["vm:13557","nscoun"]],
+  E:[3.5,"L","Faster permits; expand the BIA; protect small and legacy businesses in new buildings",["ch:Max-Lai","https://maxlai.ca/key-issues/"]],
+  C:[4,"M","Require AC in new buildings; solar and heat pump incentives; supports right to cool",["nsqa","v4t:maxwell-lai"]],
+  S:[4,"M","Expand recreation programs to cut costs; faster childcare permits",["https://maxlai.ca/key-issues/"]],
+  Y:[4,"M","Mental-health specialists for non-violent crisis calls; supportive transitional housing",["vm:13557"]]}},
+ {id:"heywood",n:"Guy Heywood",g:"council",x:"City councillor 2008-14. Ran for mayor in 2022.",c:{
+  H:[2,"M","OCP should put neighbourhood preservation and infrastructure capacity ahead of planning slogans",["https://rguy4northvan.ca/blog/bringing-honesty-and-direct-accountability-back-to-city-hall.html"]],
+  M:[2,"M","Calls St Andrews calming and the Grand Blvd bike lane \"performative\"; wants joint traffic control",["nsqa"]],
+  F:[1,"H","No new elective projects; says City tax rate is 11% above the District's",["nsqa","https://rguy4northvan.ca/blog/city-taxes-are-higher-than-the-district.html"]],
+  G:[4.5,"M","Move consultant money to amenities; councillors at every engagement event; unscripted town halls",["https://rguy4northvan.ca/blog/bringing-honesty-and-direct-accountability-back-to-city-hall.html"]],
+  E:[2,"L","Combined City/District permitting; \"no more council boondoggles\"",["nsqa"]],
+  C:[2,"M","Wrote that the City \"should stop greenwashing\"; questions whether Lonsdale Energy should exist",["v4t:robert-guy-heywood"]],
+  S:[3,"L","\"Better, not necessarily more expensive, government\"",["nsqa","nvv:cnv-council-heywood-guy"]]}},
+ {id:"cato",n:"Jeremy Cato",g:"council",x:"Ran for council in 2022 on managed growth.",c:{
+  H:[2.5,"M","Growth only with funded infrastructure; will vote no where impacts can't be managed",["nsqa","https://jeremycato.substack.com/p/north-vancouver-like-other-cities"]],
+  M:[2,"H","No net cut to road capacity on major corridors until transit is funded and dated; HUB maybe",["https://jeremycato.substack.com/p/stuck-in-traffic-370","ch:Jeremy-Cato","hub26"]],
+  F:[2,"H","Tax increases at or below inflation; full spending review; cost every project per household",["ch:Jeremy-Cato","https://jeremycato.substack.com/p/911m-explained-in-four-buckets"]],
+  G:[5,"H","Opposes Swim Deck construction until closed-session records are released and debated",["https://jeremycato.substack.com/p/should-we-why-werent-we-asked-this","nsqa"]],
+  L:[5,"M","Wants the City-owned East 1st St lot made a permanent park",["nscoun"]],
+  E:[3,"M","Supports Great Street's goal but says the plan needs work; ICBC waterfront hub",["https://jeremycato.substack.com/p/the-lonsdale-great-street-project","ch:Jeremy-Cato"]],
+  C:[3.5,"M","Raise the 2055 canopy target from 24% to 30%; trees first in the Lower Lonsdale heat zone",["https://jeremycato.substack.com/p/north-vancouver-like-other-cities","nscoun"]]}},
+ {id:"kolstee",n:"Jullian Kolstee",g:"council",e:["Better North Shore"],x:"Past school trustee candidate. Served on the City's Social Planning Advisory Committee.",c:{
+  H:[4,"H","Mixed-use density on transit corridors, multiplexes in residential neighbourhoods",["https://www.jullian4northvan.ca/platform","nsqa"]],
+  T:[4,"M","More non-market housing and tenant protections; no mechanism named",["https://www.jullian4northvan.ca/platform"]],
+  M:[4,"M","BRT with transit priority; active transportation network; yes on HUB's 2026 items",["ch:Jullian-Kolstee","hub26"]],
+  F:[3,"M","Monitor debt and reserves; follow through on the wastewater inquiry",["https://www.jullian4northvan.ca/platform","v4t:jullian-kolstee"]],
+  G:[4,"M","Put the community engagement framework in the next strategic plan",["https://www.jullian4northvan.ca/platform","nsqa"]],
+  L:[4,"M","Tree bylaw on all sites with rare exemptions; tree removal a last resort; inclusive parks",["v4t:jullian-kolstee","nscoun","https://www.jullian4northvan.ca/platform"]],
+  E:[3,"M","Partner with small businesses; predictable processes; measure business longevity",["ch:Jullian-Kolstee"]],
+  C:[4.5,"M","Calls climate an existential threat; tree bylaw on all sites; phase out RNG; right to cool",["v4t:jullian-kolstee"]],
+  S:[3.5,"L","Programs and facilities designed for seniors and disabled residents",["bns"]]}},
+ {id:"izatt",n:"Ken Izatt",g:"council",x:"Six years on the City's Social Planning Advisory Committee.",c:{
+  H:[2.5,"M","Repair older rentals rather than demolish; protect ground-floor retail; adequate off-street parking",["https://www.kizatt.ca/platform","nscoun"]],
+  T:[4,"H","Binding relocation bylaw with right of first refusal; tax break only if rents stay below market",["https://www.kizatt.ca/platform"]],
+  M:[2,"H","Practical flow over road-space reductions; review the 2022 Mobility Strategy",["https://www.kizatt.ca/platform"]],
+  P:[2,"H","End paid parking at 6 pm; review the whole parking framework",["https://www.kizatt.ca/platform"]],
+  F:[1.5,"H","Needs over wants; full financial review; projects on time and on budget",["https://www.kizatt.ca/platform"]],
+  G:[4.5,"H","Replace the 2-minute comment limit with Q&A; surveys before major votes; town halls",["https://www.kizatt.ca/platform"]],
+  L:[5,"H","Make the East 1st St City lot a permanent park",["https://www.kizatt.ca/platform"]],
+  E:[2.5,"M","Streamline permits; protect commercial space; partner with BIAs on curb access",["nsqa","ch:Ken-Izatt"]],
+  C:[3.5,"M","Shift to zero-carbon standards; tree bylaw on all sites; unsure about funding Lonsdale Energy",["nsqa","v4t:ken-izatt"]],
+  S:[3.5,"L","Upgrade gravel fields to all-weather turf",["https://www.kizatt.ca/platform"]]}},
+ {id:"boltenko",n:"Anna Boltenko",g:"council",x:"Ran in 2018 and 2022. Former chair of the City's Social Planning Advisory Committee.",c:{
+  H:[3.5,"M","Gentle density (duplexes, townhomes, small apartments) where it fits; apply the OCP consistently",["nsqa"]],
+  T:[4,"M","Rental, non-market and co-op homes; strong renter protections; use public land strategically",["nsqa"]],
+  M:[3.5,"M","\"Move more people, not just more cars\"; bus priority; judge projects on business impact too",["ch:Anna-Boltenko","nsqa","hub26"]],
+  F:[3,"L","Transparent budgets and procurement; measurable results",["nvv:cnv-council-boltenko-anna","v4t:anna-boltenko"]],
+  G:[4,"M","Engage earlier; explain how input influenced each decision",["vm:13611"]],
+  L:[4,"M","Mature-tree retention \"a first consideration rather than the last\"; tree bylaw on all sites; also use public land for housing",["v4t:anna-boltenko","nscoun","vm:13611","nsqa"]],
+  E:[4,"M","Deliver the City's Economic Strategy with the Chamber and BIAs; one-stop business navigator",["ch:Anna-Boltenko"]],
+  C:[4.5,"H","Sunset RNG at Lonsdale Energy by 2030; tree bylaw on all sites; annual targets",["v4t:anna-boltenko","nsqa"]],
+  S:[4.5,"M","Childcare and community spaces; children's mental wellbeing; food security",["nvv:cnv-council-boltenko-anna","vm:13611"]]}},
+ {id:"robertson",n:"Andrew Robertson",g:"council",e:["Better North Shore"],x:"Medical physicist. Sits on the North Shore Community Housing Action Committee.",c:{
+  H:[4.5,"H","Townhomes, rowhomes and multiplexes near schools and transit; cut permit delays and development taxes",["nsqa","https://northvandrew.ca/platform.html"]],
+  T:[4.5,"H","City land, fee cuts and fast-tracking for non-profit housing; land trusts; replace lost rentals",["https://northvandrew.ca/platform.html","nsqa"]],
+  M:[4.5,"M","Connected bike network, car share, BRT; city-wide 30 km/h",["ch:Andrew-Robertson","hub26"]],
+  F:[3.5,"L","Invest in recreation; fairer commercial taxes; cut development taxes on new homes",["https://northvandrew.ca/platform.html"]],
+  G:[3.5,"M","Engagement that reaches under-represented residents, not just the loudest",["https://northvandrew.ca/platform.html"]],
+  L:[3,"L","City land for non-profit housing; also more playgrounds and parks within walking distance",["https://northvandrew.ca/platform.html"]],
+  E:[4,"M","Legacy business program, faster permits; backs the Health Innovation District",["ch:Andrew-Robertson"]],
+  C:[4.5,"H","Maximum-temperature bylaw for rentals; emissions targets; density bonus for tree retention",["nsqa","v4t:andrew-robertson"]],
+  S:[4,"M","Fund seniors' programs; invest in recreation; childcare in new developments",["https://northvandrew.ca/platform.html"]],
+  Y:[4,"M","Support harm reduction and mental health services",["https://northvandrew.ca/platform.html"]]}},
+ {id:"bentz",n:"Tammy Bentz",g:"council",e:["VDLC","Better North Shore","North Shore Pride Alliance"],x:"BCIT instructor and former small business co-owner.",c:{
+  H:[3.5,"M","Missing middle in appropriate neighbourhoods; growth respectful of neighbourhood character",["https://tammybentz.ca/priorities/"]],
+  T:[3.5,"M","Purpose-built family rentals; affordable housing partnerships; streamlined affordable permits",["https://tammybentz.ca/priorities/"]],
+  M:[3.5,"H","\"Pro-transit doesn't mean anti-car\"; express transit lanes; continuous bike routes",["ch:Tammy-Bentz","https://tammybentz.ca/priorities/","hub26"]],
+  F:[3,"M","Evidence-based spending; prioritize maintenance; report outcomes",["https://tammybentz.ca/priorities/"]],
+  G:[3.5,"M","Listen before deciding; neighbourhood Walk 'n' Talks",["https://tammybentz.ca/priorities/","bns"]],
+  L:[3.5,"M","Protect sensitive areas; tree bylaw on all sites",["https://tammybentz.ca/priorities/","v4t:tammy-bentz"]],
+  E:[3,"M","One-stop business service; review fees; attract innovative jobs",["ch:Tammy-Bentz"]],
+  C:[5,"H","\"Climate action has to come first\"; RNG phase-out date; right to cool; no AI data centres",["https://tammybentz.ca/priorities/","v4t:tammy-bentz"]],
+  S:[3.5,"L","Supports libraries, recreation, youth programs, seniors' services",["https://tammybentz.ca/priorities/"]],
+  Y:[3.5,"L","Community-based approaches to homelessness with provincial partners",["https://tammybentz.ca/priorities/"]]}},
+ {id:"raisinghani",n:"Krishna Raisinghani",g:"council",e:["VDLC","Better North Shore","CUPE 389","BCGEU"],x:"Chairs the City's Advisory Planning Commission.",c:{
+  H:[3.5,"H","Multiplexes, townhomes, small apartments; predictable approvals; infrastructure must keep pace",["https://www.krishnanorthvan.ca/post/thoughtful-growth-housing"]],
+  T:[4,"H","Relocation support and a path to return; 150+ affordable workforce rentals on City land",["https://www.krishnanorthvan.ca/post/thoughtful-growth-housing","https://www.krishnanorthvan.ca/post/affordableworkforcehousing"]],
+  M:[3.5,"H","Data-led bottleneck fixes; quick-build school routes; close sidewalk and cycling gaps",["https://www.krishnanorthvan.ca/faq","ch:Krishna-Raisinghani","hub26"]],
+  P:[3,"M","Keep pay parking; review the 9 pm end area by area and end near 6 pm where demand is low; publish annual data",["https://www.krishnanorthvan.ca/post/pay-parking-keep-what-works-fix-what-doesn-t"]],
+  F:[2.5,"M","Keep tax and fee increases as low as reasonably possible; quarterly project scorecard",["ch:Krishna-Raisinghani","https://www.krishnanorthvan.ca/faq"]],
+  G:[4,"H","Share options before design; publish what changed; willing to revisit",["https://www.krishnanorthvan.ca/post/public-engagement-should-start-while-the-choices-are-still-open"]],
+  L:[2,"M","Lease Harry Jerome lands to repay the loan; one parcel for workforce housing",["https://www.krishnanorthvan.ca/post/affordableworkforcehousing"]],
+  E:[3,"M","30-day target for simple permits; one accountable contact",["https://www.krishnanorthvan.ca/faq"]],
+  C:[4,"H","Tree bylaw on all sites in principle; RNG phase-out; right to cool; climate test on projects",["v4t:krishna-raisinghani"]],
+  S:[3.5,"L","Arts, culture, events; push for schools and childcare to keep pace",["https://www.krishnanorthvan.ca/priorities"]]}},
+ {id:"alexander",n:"Sean Alexander",g:"council",x:"Small business owner. Campaigns against slates.",c:{
+  H:[2,"H","Upgrade roads, water and sewers before approving \"massive new density\"",["https://www.seanfornorthvan.ca/assets/Platform%20&%20Core%20Pillars.pdf"]],
+  T:[4,"H","Close displacement loopholes; right of first refusal; says 10% below market is not enough",["nsqa"]],
+  M:[2.5,"M","Micro-shuttles and fare incentives; says Esplanade and St Andrews changes ignored business",["ch:Sean-Alexander"]],
+  F:[2,"M","Hold the line on fees; \"no blank cheques\"; wastewater accountability",["https://www.seanfornorthvan.ca/assets/why-im-running.pdf","nsqa"]],
+  G:[4.5,"H","Expand public input time; input before plans are final; 48-hour response line",["nsqa","https://www.seanfornorthvan.ca/assets/Platform%20&%20Core%20Pillars.pdf"]],
+  E:[2,"M","Says streetscape and parking changes create \"ghost towns\"; faster permits; hold fees",["ch:Sean-Alexander"]],
+  C:[2,"H","\"Practical green choices: not heavy-handed mandates\"",["nsqa"]],
+  S:[2,"L","Partner with builders on daycare capacity",["https://www.seanfornorthvan.ca/assets/why-im-running.pdf"]],
+  Y:[4,"L","Prevention-focused, community-minded safety",["nvv:cnv-council-alexander-sean"]]}},
+ {id:"tumaneng",n:"Lailani Tumaneng",g:"council",e:["BC Nurses' Union","CUPE 389"],x:"School trustee since 2022 and registered nurse.",c:{
+  H:[2.5,"M","Meet provincial transit-area rules \"thoughtfully\"; protect interior streets; infrastructure first",["https://lailani4northvan.netlify.app","nsqa"]],
+  T:[3.5,"M","More below-market and rental housing; non-profit projects; protect seniors' housing",["nsqa","https://lailani4northvan.netlify.app"]],
+  M:[3,"M","Connected bike routes with real consultation, weighing parking; bus enhancements",["https://lailani4northvan.netlify.app","nsqa"]],
+  F:[2.5,"M","Modest, justified increases tied to core services; full wastewater inquiry",["https://lailani4northvan.netlify.app"]],
+  G:[3.5,"M","OCP update with robust consultation, not rushed; annual resident survey",["https://lailani4northvan.netlify.app","nsqa"]],
+  E:[2.5,"L","Streamline permitting; local procurement",["https://lailani4northvan.netlify.app"]],
+  C:[4,"M","Cut building carbon; \"sustainability needs to be the No. 1 priority\"",["nsqa","nscoun"]],
+  S:[4,"M","Stable funding for community programs; youth mental health; childcare coordination",["https://lailani4northvan.netlify.app"]],
+  Y:[4,"M","Expand crisis response teams (Car 22 model) and peer-assisted care",["https://lailani4northvan.netlify.app"]]}},
+ {id:"brun",n:"David Brun",g:"council",x:"Co-founder of an assistive-technology company. Accessibility is a campaign focus.",c:{
+  H:[2.5,"M","If residents accept more density, the community should receive more; not opposed to development",["https://davidbrunforcouncil.wordpress.com/2026/10/04/housing-and-growth-community-benefit/"]],
+  T:[3.5,"M","Says 10%-below-market rent is unaffordable on disability or seniors' benefits",["https://davidbrunforcouncil.wordpress.com/2026/10/04/housing-and-growth-community-benefit/","nscoun"]],
+  M:[3.5,"M","More frequent buses, bus lanes, connected walking and cycling; yes on HUB's 2026 items",["https://davidbrunforcouncil.wordpress.com","nscoun","hub26"]],
+  F:[3,"L","Stable library funding with transparent budget review",["https://davidbrunforcouncil.wordpress.com/question-what-is-your-position-on-proper-predictable-library-funding/"]],
+  G:[3.5,"M","Top priority: connect residents to City Hall; accessible cnv.org",["nsqa"]],
+  E:[2.5,"L","Simplify permits; predictable processes",["nsqa"]],
+  C:[3,"L","Pet-friendly cooling and warming centres; assess wildfire and runoff risks",["nsqa"]],
+  S:[3,"M","Gather needs data first; improve or share facilities before a new seniors' centre",["https://davidbrunforcouncil.wordpress.com/seniors-and-childcare-are-our-community-services-meeting-residents-needs/"]],
+  Y:[3,"M","\"Prevention, design, and enforcement all play a role\"; shelter for unhoused",["https://davidbrunforcouncil.wordpress.com/crime-vandalism-graffiti-and-community-safety/"]]}}
+];
+
+</script>
+
+<script id="core">
+/* =========================================================
+   CORE: pure scoring functions. No DOM, no app state.
+   test/core.test.js loads this block and the data block.
+   ========================================================= */
+var CONF={H:1,M:0.7,L:0.4};
+var CONF_LABEL={H:"high",M:"medium",L:"low"};
+var LIMITED_EVIDENCE=0.4;
+var DEALBREAKER_GAP=2;
+var UNKNOWN_ALIGN=50;
+var PRIORITY_LABELS=["Not a factor","Matters","Matters a lot","Top priority"];
+
+function align(u,p){return 100*(1-Math.abs(u-p)/4);}
+
+/* Resolves a source key ("nsqa", "ch:Don-Bell") or raw URL to {t,u}. Null if unknown. */
+function srcLink(k){
+  if(/^https?:\/\//.test(k))return {t:k.replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,""),u:k};
+  if(SRC[k])return SRC[k];
+  var i=k.indexOf(":"),p=i>0&&SRC_PATTERNS[k.slice(0,i)];
+  return p?{t:p.t,u:p.u.replace("$",k.slice(i+1))}:null;
+}
+
+/* Expected alignment with a position drawn uniformly from 1 to 5.
+   E|u-X| = ((u-1)^2 + (5-u)^2) / 8, so this is 50 at the poles and 75 at the centre. */
+function blindAlign(u){return 100*(1-((u-1)*(u-1)+(5-u)*(5-u))/32);}
+
+function userScores(cats,questions,ans){
+  var out={};
+  cats.forEach(function(c){
+    var v=questions.filter(function(q){return q.cat===c.id&&ans[q.id]&&ans[q.id].score!=null;}).map(function(q){return ans[q.id].score;});
+    out[c.id]=v.length?v.reduce(function(a,b){return a+b;},0)/v.length:null;
+  });
+  return out;
+}
+
+/* Each area scores as a mix: the coded position counts with weight equal to its
+   confidence, and the remainder (all of it when uncoded) counts as unknown.
+   Every candidate is averaged over the same areas, so scores compare across
+   candidates and thin evidence pulls a score toward the unknown value.
+   Unknown defaults to UNKNOWN_ALIGN rather than blindAlign(u): for a centrist,
+   blindAlign is 75, which would rank a blank candidate level with a well-documented
+   one a full point away. Pass blindAlign as `unknown` for the expected score. */
+function scoreCandidate(cand,us,w,db,cats,unknown){
+  var num=0,wSum=0,ev=0,cells={},conflicts=[],unk=unknown||function(){return UNKNOWN_ALIGN;};
+  cats.forEach(function(c){
+    var u=us[c.id],d=cand.c[c.id],wt=w[c.id]||0;
+    if(d)cells[c.id]={pos:d[0],conf:d[1],note:d[2],a:u==null?null:align(u,d[0])};
+    if(u==null)return;
+    if(db&&db[c.id]&&d&&d[1]!=="L"&&Math.abs(u-d[0])>=DEALBREAKER_GAP)conflicts.push(c.id);
+    if(wt<=0)return;
+    var e=d?CONF[d[1]]:0;
+    num+=wt*((d?e*align(u,d[0]):0)+(1-e)*unk(u));
+    wSum+=wt;ev+=wt*e;
+  });
+  var evidence=wSum?ev/wSum:0;
+  return {score:wSum?num/wSum:null,evidence:evidence,limited:evidence<LIMITED_EVIDENCE,cells:cells,conflicts:conflicts};
+}
+
+function byScore(a,b){
+  var sa=a.r.score==null?-1:a.r.score,sb=b.r.score==null?-1:b.r.score;
+  return (sb-sa)||(b.r.evidence-a.r.evidence)||a.c.n.localeCompare(b.c.n);
+}
+
+function rankCandidates(cands,us,w,db,cats){
+  return cands.map(function(c){return {c:c,r:scoreCandidate(c,us,w,db,cats)};}).sort(byScore);
+}
+
+function rng(seed){
+  var a=seed>>>0;
+  return function(){
+    a=(a+0x6D2B79F5)>>>0;var t=a;
+    t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);
+    return ((t^(t>>>14))>>>0)/4294967296;
+  };
+}
+
+/* One draw: each coded position is right with probability equal to its confidence,
+   otherwise uniform on 1 to 5. The mean of many draws converges to
+   scoreCandidate(..., blindAlign).score, not the more cautious default score. */
+function sampleScore(cand,us,w,cats,rand){
+  var num=0,wSum=0;
+  cats.forEach(function(c){
+    var u=us[c.id],wt=w[c.id]||0;
+    if(u==null||wt<=0)return;
+    var d=cand.c[c.id],e=d?CONF[d[1]]:0;
+    var pos=rand()<e?d[0]:1+4*rand();
+    num+=wt*align(u,pos);wSum+=wt;
+  });
+  return wSum?num/wSum:null;
+}
+
+/* Share of simulated runs in which each candidate lands in the top `slots`. */
+function topChance(cands,us,w,cats,slots,runs,seed){
+  var hits={},rand=rng(seed==null?1:seed),n=runs||2000,done=0;
+  cands.forEach(function(c){hits[c.id]=0;});
+  for(var i=0;i<n;i++){
+    var s=cands.map(function(c){return {id:c.id,s:sampleScore(c,us,w,cats,rand)};}).filter(function(x){return x.s!=null;});
+    if(!s.length)break;
+    s.sort(function(a,b){return b.s-a.s;});
+    s.slice(0,slots).forEach(function(x){hits[x.id]++;});
+    done++;
+  }
+  Object.keys(hits).forEach(function(k){hits[k]=done?hits[k]/done:0;});
+  return hits;
+}
+
+function hashStr(s){
+  var h=2166136261;
+  for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}
+  return h>>>0;
+}
+
+/* Stable per-question shuffle so the answer list doesn't read as a 1-to-5 scale. */
+function optionOrder(q){
+  var idx=q.o.map(function(_,i){return i;}),rand=rng(hashStr(q.id));
+  for(var i=idx.length-1;i>0;i--){var j=Math.floor(rand()*(i+1)),t=idx[i];idx[i]=idx[j];idx[j]=t;}
+  var sc=idx.map(function(i){return q.o[i][1];}),up=true,down=true;
+  for(var k=1;k<sc.length;k++){if(sc[k]<=sc[k-1])up=false;if(sc[k]>=sc[k-1])down=false;}
+  if(up||down)idx.push(idx.shift());
+  return idx;
+}
+
+/* Rebuilds saved or imported state from known ids only. Option scores come from
+   the question data, never from the payload. Returns null if unusable. */
+function sanitizeState(raw,cats,questions){
+  if(!raw||typeof raw!=="object"||!raw.ans||typeof raw.ans!=="object")return null;
+  var ans={},w={},db={};
+  questions.forEach(function(q){
+    var a=raw.ans[q.id];
+    if(!a||typeof a!=="object")return;
+    if(a.type==="opt"&&Number.isInteger(a.idx)&&a.idx>=0&&a.idx<q.o.length){
+      ans[q.id]={type:"opt",idx:a.idx,score:q.o[a.idx][1]};
+    }else if(a.type==="off"){
+      var v=Number(a.score);
+      if(isFinite(v))ans[q.id]={type:"off",score:Math.min(5,Math.max(1,Math.round(v*2)/2)),text:typeof a.text==="string"?a.text.slice(0,2000):""};
+    }else if(a.type==="skip"){
+      ans[q.id]={type:"skip",score:null};
+    }
+  });
+  cats.forEach(function(c){
+    var v=raw.w&&raw.w[c.id];
+    w[c.id]=Number.isInteger(v)&&v>=0&&v<=3?v:1;
+    if(raw.db&&raw.db[c.id]===true)db[c.id]=true;
+  });
+  return {ans:ans,w:w,db:db};
+}
+</script>
+
+<script>
+/* =========================================================
+   APP: state, actions, views
+   ========================================================= */
+var KEY="nv2026-ballot-match-v1";
+var RUNS=2000;
+var CLOSE_CALL=3;
+var S={step:"intro",i:0,ans:{},w:{},db:{},detail:null,tab:"mayor",sort:"match",offOpen:false,msg:""};
+CATS.forEach(function(c){S.w[c.id]=1;});
+
+function el(id){return document.getElementById(id);}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
+function cat(id){return CATS.filter(function(c){return c.id===id;})[0];}
+function cand(id){return CANDS.filter(function(c){return c.id===id;})[0];}
+function answeredCount(){return QUESTIONS.filter(function(q){return S.ans[q.id]&&S.ans[q.id].score!=null;}).length;}
+function seats(g){return g==="mayor"?1:6;}
+function apply(st){S.ans=st.ans;S.w=st.w;S.db=st.db;}
+
+function load(){
+  try{
+    var o=JSON.parse(localStorage.getItem(KEY)||"null"),st=sanitizeState(o,CATS,QUESTIONS);
+    if(!st)return;
+    apply(st);
+    if(["intro","q","w","res"].indexOf(o.step)>=0)S.step=o.step;
+    if(Number.isInteger(o.i)&&o.i>=0&&o.i<QUESTIONS.length)S.i=o.i;
+  }catch(e){}
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({ans:S.ans,w:S.w,db:S.db,step:S.step,i:S.i}));}catch(e){}}
+
+/* Simulation is the slow part; cache it per answer/priority state. */
+var chanceCache={key:null,val:null};
+function chances(us){
+  var key=JSON.stringify([us,S.w,S.db]);
+  if(chanceCache.key===key)return chanceCache.val;
+  var val={};
+  ["mayor","council"].forEach(function(g){
+    var pool=CANDS.filter(function(c){return c.g===g&&!scoreCandidate(c,us,S.w,S.db,CATS).conflicts.length;});
+    val[g]=topChance(pool,us,S.w,CATS,seats(g),RUNS,7);
+  });
+  chanceCache={key:key,val:val};
+  return val;
+}
+
+function results(us){
+  var ch=chances(us),out={};
+  ["mayor","council"].forEach(function(g){
+    var rows=rankCandidates(CANDS.filter(function(c){return c.g===g;}),us,S.w,S.db,CATS);
+    rows.forEach(function(x){x.chance=x.r.conflicts.length?0:(ch[g][x.c.id]||0);});
+    var eligible=rows.filter(function(x){return x.r.score!=null&&!x.r.conflicts.length;});
+    var n=seats(g),picks=eligible.slice(0,n),next=eligible[n];
+    var close=!!(next&&picks.length===n&&picks[n-1].r.score-next.r.score<CLOSE_CALL);
+    out[g]={rows:rows,picks:picks,next:next,close:close,excluded:rows.length-eligible.length};
+  });
+  return out;
+}
+
+function heat(p){
+  var LOW=[233,201,168],MID=[238,240,236],HIGH=[46,125,116];
+  function mix(a,b,t){return a.map(function(v,i){return Math.round(v+(b[i]-v)*t);});}
+  var t=Math.max(0,Math.min(1,(p-30)/70)),rgb=t<0.5?mix(LOW,MID,t/0.5):mix(MID,HIGH,(t-0.5)/0.5);
+  var lum=0.299*rgb[0]+0.587*rgb[1]+0.114*rgb[2];
+  return {bg:"rgb("+rgb.join(",")+")",fg:lum<140?"#fff":"#13202B"};
+}
+function pct(x){return Math.round(x*100)+"%";}
+function sourcesHtml(keys){
+  var links=(keys||[]).map(srcLink).filter(Boolean);
+  if(!links.length)return '';
+  return '<p class="small">Sources: '+links.map(function(s){return '<a href="'+esc(s.u)+'" target="_blank" rel="noopener noreferrer">'+esc(s.t)+'</a>';}).join(' &middot; ')+'</p>';
+}
+
+/* =========================================================
+   NAVIGATION + ACTIONS
+   ========================================================= */
+function go(step,i){
+  S.step=step;if(typeof i==="number")S.i=i;
+  var a=step==="q"&&S.ans[QUESTIONS[S.i].id];
+  S.offOpen=!!(a&&a.type==="off");S.msg="";
+  save();render();window.scrollTo(0,0);
+}
+function startNew(){S.ans={};S.db={};CATS.forEach(function(c){S.w[c.id]=1;});S.detail=null;go("q",0);}
+function pick(idx){var q=QUESTIONS[S.i];S.ans[q.id]={type:"opt",idx:idx,score:q.o[idx][1]};S.offOpen=false;save();render();}
+function skipQ(){var q=QUESTIONS[S.i];S.ans[q.id]={type:"skip",score:null};save();next();}
+function toggleOff(){S.offOpen=!S.offOpen;render();}
+function offInput(){
+  var q=QUESTIONS[S.i],v=parseFloat(el("offrange").value);
+  el("offval").textContent=v.toFixed(1);
+  S.ans[q.id]={type:"off",score:v,text:el("offtxt").value};
+  save();
+  Array.prototype.forEach.call(document.querySelectorAll(".opt"),function(b){
+    var on=b.classList.contains("alt");b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false");
+  });
+  el("nextbtn").disabled=false;
+  el("offstatus").textContent="Saved as "+v.toFixed(1)+" / 5.";
+}
+function next(){if(S.i<QUESTIONS.length-1)go("q",S.i+1);else go("w");}
+function back(){if(S.i>0)go("q",S.i-1);else go("intro");}
+function setW(id,v){S.w[id]=v;save();render();}
+function setDb(id,on){if(on)S.db[id]=true;else delete S.db[id];save();render();}
+function setTab(t){S.tab=t;S.detail=null;render();}
+function setSort(v){S.sort=v;render();}
+function showDetail(cid,k){S.detail={c:cid,k:k};render();}
+function importData(){
+  var st=null;
+  try{st=sanitizeState(JSON.parse(el("imp").value),CATS,QUESTIONS);}catch(e){}
+  if(!st){S.msg="That didn't look like exported results. Paste the JSON block from the Export box.";render();return;}
+  apply(st);S.detail=null;go("res");
+  S.msg="Imported "+answeredCount()+" answers.";render();
+}
+function copyBox(id){
+  var box=el(id),msg=el(id+"msg");
+  function done(ok){if(msg)msg.textContent=ok?"Copied.":"Select the text and copy it manually.";}
+  function legacy(){box.select();try{return document.execCommand("copy");}catch(e){return false;}}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(box.value).then(function(){done(true);},function(){done(legacy());});
+  else done(legacy());
+}
+
+/* =========================================================
+   VIEWS
+   ========================================================= */
+var HOW='<p class="small">In each area, alignment = 100 &times; (1 &minus; |your position &minus; their position| &divide; 4).</p>'+
+  '<p class="small">A coded position counts in proportion to its confidence: high 100%, medium 70%, low 40%. The rest of that area, and all of any area with no coded position, counts as unknown and scores '+UNKNOWN_ALIGN+'%, a coin flip. Areas are then averaged by your priorities. Thin or vague evidence therefore pulls a candidate toward '+UNKNOWN_ALIGN+'% instead of letting a few soft codings carry them to the top.</p>'+
+  '<p class="small"><strong>Evidence</strong> is how much of the score rests on actual codings. Candidates under '+pct(LIMITED_EVIDENCE)+' are flagged "limited data".</p>'+
+  '<p class="small"><strong>Top chance</strong> re-runs the scoring '+RUNS.toLocaleString()+' times. Each run treats every coding as wrong with a probability set by its confidence, and places wrong or missing positions at random on the scale. It counts how often the candidate makes your top 1 (mayor) or top 6 (council). A thinly documented candidate can show a real Top chance with a modest Match: they might fit you well, but the record doesn\'t show it.</p>'+
+  '<p class="small">A <strong>dealbreaker</strong> area flags any candidate whose medium or high confidence position is '+DEALBREAKER_GAP+' or more points from yours, and leaves them out of your top picks.</p>'+
+  '<p class="small">This is not an endorsement. Coding is a judgment call on limited, mostly self-reported information, and every cell shows its evidence so you can disagree with it.</p>';
+
+function introView(){
+  var n=answeredCount();
+  return '<h1>North Van 2026 Ballot Match</h1>'+
+  '<p class="muted">City of North Vancouver, general local election, Saturday October 17, 2026. One mayor, up to six councillors.</p>'+
+  '<p class="small muted">Voting day is 8 a.m. to 8 p.m. at nine locations. Mail ballots must reach the City by 8 p.m. that day. <a href="https://www.cnv.org/City-Hall/General-Local-Election/2026-General-Local-Election" target="_blank" rel="noopener noreferrer">Locations and details on cnv.org</a>.</p>'+
+  '<div class="card">'+
+  '<p>Answer '+QUESTIONS.length+' short scenario questions across '+CATS.length+' policy areas. Each has four set answers plus an <strong>off-script</strong> option where you write your own view and place it on the scale. Then rate how much each area matters to you.</p>'+
+  '<p>Your answers become a position (1 to 5) in each area. Each candidate was coded on the same scales from public statements, campaign sites and reported votes. The results matrix shows how closely they line up, area by area.</p>'+
+  '<div class="row">'+
+  (n?'<button class="btn" onclick="go(\'res\')">See my results</button><button class="btn ghost" onclick="go(\'q\',0)">Edit my answers</button><button class="btn ghost" onclick="startNew()">Start over</button>':'<button class="btn" onclick="startNew()">Start the interview</button>')+
+  '</div></div>'+
+  '<details class="card"><summary>How scoring works</summary>'+HOW+'</details>'+
+  '<details class="card"'+(S.msg?' open':'')+'><summary>Import saved results</summary>'+
+  '<p class="small">Paste the JSON from a previous export to restore your answers.</p>'+
+  '<textarea id="imp" aria-label="Saved results JSON"></textarea>'+
+  '<div class="row" style="margin-top:8px"><button class="btn ghost" onclick="importData()">Import</button><span class="small muted" role="status">'+esc(S.msg)+'</span></div></details>';
+}
+
+function qView(){
+  var q=QUESTIONS[S.i],c=cat(q.cat),a=S.ans[q.id],isOff=a&&a.type==="off";
+  var h='<div class="row spread small muted"><span>'+esc(c.name)+'</span><span>Question '+(S.i+1)+' of '+QUESTIONS.length+'</span></div>'+
+  '<div class="prog"><i style="width:'+Math.round(S.i/QUESTIONS.length*100)+'%"></i></div>'+
+  '<div class="card"><h2>'+esc(q.q)+'</h2><div class="opts" role="group" aria-label="Answer choices">';
+  optionOrder(q).forEach(function(idx){
+    var on=a&&a.type==="opt"&&a.idx===idx;
+    h+='<button class="opt'+(on?' on':'')+'" aria-pressed="'+(on?'true':'false')+'" onclick="pick('+idx+')">'+esc(q.o[idx][0])+'</button>';
+  });
+  h+='<button class="opt alt'+(isOff?' on':'')+'" aria-pressed="'+(isOff?'true':'false')+'" aria-expanded="'+(S.offOpen?'true':'false')+'" onclick="toggleOff()">Off-script: none of these fit. I\'ll say it myself.</button></div>';
+  if(S.offOpen){
+    var val=isOff?a.score:3,txt=isOff&&a.text?a.text:"";
+    h+='<div class="offpanel"><label for="offtxt"><strong>Your view</strong></label>'+
+    '<textarea id="offtxt" oninput="offInput()" placeholder="Say it in your own words. This is saved with your results.">'+esc(txt)+'</textarea>'+
+    '<p style="margin:12px 0 4px"><strong>Where does it sit on this scale?</strong> <span id="offval">'+Number(val).toFixed(1)+'</span></p>'+
+    '<input id="offrange" type="range" min="1" max="5" step="0.5" value="'+val+'" oninput="offInput()" aria-label="Position on scale from 1 to 5">'+
+    '<div class="axis"><span>1: '+esc(c.lo)+'</span><span style="text-align:right">5: '+esc(c.hi)+'</span></div>'+
+    '<p class="small muted" id="offstatus" role="status" style="margin:10px 0 0">'+(isOff?'Saved as '+Number(val).toFixed(1)+' / 5.':'Only the slider position is scored. Your answer saves as you type or move the slider.')+'</p></div>';
+  }
+  h+='<div class="row spread"><button class="btn ghost" onclick="back()">Back</button><div class="row"><button class="btn ghost" onclick="skipQ()">Skip</button><button class="btn" id="nextbtn" '+(a?'':'disabled')+' onclick="next()">'+(S.i===QUESTIONS.length-1?'Continue':'Next')+'</button></div></div></div>';
+  return h;
+}
+
+function wView(){
+  var h='<div class="row spread small muted"><span>Last step</span><span>Priorities</span></div><div class="prog"><i style="width:100%"></i></div>'+
+  '<div class="card"><h2>How much does each area matter to you?</h2><p class="muted">Areas set to "Not a factor" are left out of the match score. Mark an area as a <strong>dealbreaker</strong> to flag candidates who sit '+DEALBREAKER_GAP+'+ points away from you on it and leave them out of your top picks.</p>';
+  CATS.forEach(function(c){
+    h+='<div class="wrow"><div><strong>'+esc(c.name)+'</strong><div class="small muted">'+esc(c.lo)+' &harr; '+esc(c.hi)+'</div></div><div class="row"><div class="seg" role="group" aria-label="Priority for '+esc(c.name)+'">';
+    PRIORITY_LABELS.forEach(function(l,v){h+='<button class="'+(S.w[c.id]===v?'on':'')+'" aria-pressed="'+(S.w[c.id]===v)+'" onclick="setW(\''+c.id+'\','+v+')">'+l+'</button>';});
+    h+='</div><label class="small dbtoggle"><input type="checkbox" '+(S.db[c.id]?'checked ':'')+'onchange="setDb(\''+c.id+'\',this.checked)"> Dealbreaker</label></div></div>';
+  });
+  h+='<div class="row spread" style="margin-top:16px"><button class="btn ghost" onclick="go(\'q\','+(QUESTIONS.length-1)+')">Back</button><button class="btn" onclick="go(\'res\')">Show my matrix</button></div></div>';
+  return h;
+}
+
+function picksLine(res,g){
+  var R=res[g];
+  if(!R.picks.length)return 'not enough answers yet';
+  return R.picks.map(function(x){return esc(x.c.n)+' ('+Math.round(x.r.score)+'%'+(x.r.limited?', limited data':'')+')';}).join(', ');
+}
+
+function resView(){
+  var us=userScores(CATS,QUESTIONS,S.ans),res=results(us),R=res[S.tab],n=seats(S.tab);
+  var h='<h1>Your results</h1><p class="muted">Match is how closely a candidate\'s stated positions line up with yours. It is not a recommendation.</p>';
+  if(S.msg)h+='<p class="small" role="status">'+esc(S.msg)+'</p>';
+  h+='<div class="row" style="margin-bottom:12px"><button class="btn ghost" onclick="go(\'q\',0)">Edit answers</button><button class="btn ghost" onclick="go(\'w\')">Change priorities</button><button class="btn ghost" onclick="startNew()">Start over</button></div>';
+
+  /* profile */
+  h+='<div class="card"><h2>Where you landed</h2>';
+  CATS.forEach(function(c){
+    var u=us[c.id];
+    h+='<div class="pbar"><div><strong>'+esc(c.name)+'</strong><span class="chip">'+PRIORITY_LABELS[S.w[c.id]||0]+'</span>'+(S.db[c.id]?'<span class="chip">dealbreaker</span>':'')+'</div>';
+    if(u==null){h+='<div class="small muted">No answer given</div></div>';return;}
+    h+='<div class="track" aria-hidden="true"><i style="left:'+((u-1)/4*100)+'%"></i></div>'+
+    '<div class="axis"><span>'+esc(c.lo)+'</span><span>'+u.toFixed(1)+' / 5</span><span style="text-align:right">'+esc(c.hi)+'</span></div></div>';
+  });
+  h+='</div>';
+
+  /* matrix */
+  var rows=R.rows.slice();
+  if(S.sort==="name")rows.sort(function(a,b){return a.c.n.localeCompare(b.c.n);});
+  else if(S.sort==="ev")rows.sort(function(a,b){return b.r.evidence-a.r.evidence;});
+  var mayors=CANDS.filter(function(c){return c.g==="mayor";}).length,councils=CANDS.length-mayors;
+
+  h+='<h2 style="margin-top:26px">Candidate matrix</h2>';
+  h+='<div class="row spread"><div class="tabs" role="tablist"><button role="tab" aria-selected="'+(S.tab==="mayor")+'" class="'+(S.tab==="mayor"?'on':'')+'" onclick="setTab(\'mayor\')">Mayor ('+mayors+')</button><button role="tab" aria-selected="'+(S.tab==="council")+'" class="'+(S.tab==="council"?'on':'')+'" onclick="setTab(\'council\')">Council ('+councils+')</button></div>'+
+  '<label class="small">Sort <select onchange="setSort(this.value)"><option value="match"'+(S.sort==="match"?" selected":"")+'>Best match</option><option value="ev"'+(S.sort==="ev"?" selected":"")+'>Most evidence</option><option value="name"'+(S.sort==="name"?" selected":"")+'>Name</option></select></label></div>';
+  h+='<div class="card" style="margin-bottom:12px"><strong>'+(S.tab==="mayor"?'Closest match for mayor: ':'Closest six for council: ')+'</strong>'+picksLine(res,S.tab);
+  if(R.close)h+='<div class="small flagline">Close call: '+esc(R.picks[n-1].c.n)+' ('+Math.round(R.picks[n-1].r.score)+'%) and '+esc(R.next.c.n)+' ('+Math.round(R.next.r.score)+'%) are within '+CLOSE_CALL+' points. Check the Top chance column and the evidence before deciding.</div>';
+  if(R.excluded)h+='<div class="small muted">'+R.excluded+' candidate'+(R.excluded>1?'s':'')+' left out by your dealbreakers or for lack of answers.</div>';
+  h+='<div class="small muted">Limited-data candidates are scored mostly as unknowns, so their match sits near '+UNKNOWN_ALIGN+'%.</div></div>';
+  h+='<div class="legend" style="margin-bottom:8px"><span>Low alignment</span><i></i><span>High alignment</span><span>&nbsp;&nbsp;H / M / L under each cell = confidence in the coding. Hatched = no stated position found.</span></div>';
+
+  h+='<div class="scroll"><table><thead><tr><th class="name">Candidate</th><th title="Confidence-weighted match across your priorities">Match</th><th title="How much of the match rests on coded positions rather than unknowns">Evidence</th><th title="Share of '+RUNS+' simulations, with codings varied by confidence, where this candidate makes your top '+n+'">Top '+n+' chance</th>';
+  CATS.forEach(function(c){h+='<th title="'+esc(c.name)+'" class="'+((S.w[c.id]||0)===0?'dim':'')+'">'+esc(c.short)+'</th>';});
+  h+='</tr></thead><tbody>';
+  rows.forEach(function(x){
+    var m=x.r.score==null?null:heat(x.r.score),cf=x.r.conflicts;
+    h+='<tr class="'+(x.r.limited?'limited':'')+'"><td class="name"><strong>'+esc(x.c.n)+'</strong>'+(x.c.inc?'<span class="chip">incumbent</span>':'')+(x.r.limited?'<span class="flag">limited data</span>':'')+
+    (cf.length?'<span class="flag" title="Dealbreaker conflict">conflicts: '+esc(cf.map(function(k){return cat(k).short;}).join(', '))+'</span>':'')+'</td>'+
+    '<td class="num" style="'+(m?'background:'+m.bg+';color:'+m.fg+';':'')+'font-weight:700">'+(x.r.score==null?'&ndash;':Math.round(x.r.score)+'%')+'</td>'+
+    '<td class="num muted">'+pct(x.r.evidence)+'</td>'+
+    '<td class="num muted">'+(x.r.score==null||cf.length?'&ndash;':pct(x.chance))+'</td>';
+    CATS.forEach(function(c){
+      var cell=x.r.cells[c.id],sel=S.detail&&S.detail.c===x.c.id&&S.detail.k===c.id,dim=(S.w[c.id]||0)===0?' dim':'';
+      if(!cell||cell.a==null){h+='<td class="cell empty'+dim+'">'+(cell?'<button style="background:transparent;color:inherit" onclick="showDetail(\''+x.c.id+'\',\''+c.id+'\')" aria-label="'+esc(x.c.n+', '+c.name+': no answer from you')+'">&ndash;</button>':'&ndash;')+'</td>';return;}
+      var hc=heat(cell.a);
+      h+='<td class="cell'+(sel?' sel':'')+dim+'"><button style="background:'+hc.bg+';color:'+hc.fg+'" onclick="showDetail(\''+x.c.id+'\',\''+c.id+'\')" aria-label="'+esc(x.c.n+', '+c.name+': '+Math.round(cell.a)+' percent alignment, '+CONF_LABEL[cell.conf]+' confidence')+'">'+Math.round(cell.a)+'<small>'+cell.conf+'</small></button></td>';
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table></div>';
+
+  /* detail */
+  if(S.detail){
+    var cd=cand(S.detail.c),ct=cat(S.detail.k),d=cd.c[ct.id],u=us[ct.id];
+    h+='<div class="card detail"><h3>'+esc(cd.n)+' on '+esc(ct.name)+'</h3>';
+    if(d){
+      var e=CONF[d[1]];
+      h+='<p><strong>Their position: '+d[0]+' / 5</strong> ('+CONF_LABEL[d[1]]+' confidence)<br>'+(u!=null?'<strong>Your position: '+u.toFixed(1)+' / 5</strong><br><strong>Alignment: '+Math.round(align(u,d[0]))+'%</strong>':'<span class="muted">You gave no answer in this area.</span>')+'</p>'+
+      '<p>Evidence: '+esc(d[2])+'</p>'+sourcesHtml(d[3])+
+      (u!=null?'<p class="small muted">This coding carries '+pct(e)+' of the weight in this area. The other '+pct(1-e)+' treats their position as unknown ('+UNKNOWN_ALIGN+'%), so this area contributes '+Math.round(e*align(u,d[0])+(1-e)*UNKNOWN_ALIGN)+'% to their match.</p>':'');
+    }else h+='<p>No stated position found for this candidate in this area.</p>';
+    h+='<div class="axis"><span>1: '+esc(ct.lo)+'</span><span style="text-align:right">5: '+esc(ct.hi)+'</span></div>';
+    h+='<div class="profile small"><strong>About '+esc(cd.n)+'</strong>'+(cd.inc?' (incumbent)':'')+
+      '<div>Endorsed by: '+(cd.e&&cd.e.length?esc(cd.e.join(', ')):'no organisational endorsements found')+'</div>'+
+      (cd.x?'<div>'+esc(cd.x)+'</div>'+(cd.xs?sourcesHtml(cd.xs):''):'')+'</div></div>';
+  }
+
+  /* export */
+  h+='<details class="card" style="margin-top:18px"><summary>Export results</summary>'+
+  '<p class="small muted">Paste this summary into a chat to talk through the results, or save the JSON to restore your answers later.</p>'+
+  '<textarea id="sumbox" readonly aria-label="Results summary">'+esc(summaryText(us,res))+'</textarea>'+
+  '<div class="row" style="margin:8px 0 14px"><button class="btn ghost" onclick="copyBox(\'sumbox\')">Copy summary</button><span id="sumboxmsg" class="small muted" role="status"></span></div>'+
+  '<textarea id="jsonbox" readonly aria-label="Results JSON">'+esc(JSON.stringify({ans:S.ans,w:S.w,db:S.db}))+'</textarea>'+
+  '<div class="row" style="margin-top:8px"><button class="btn ghost" onclick="copyBox(\'jsonbox\')">Copy JSON</button><span id="jsonboxmsg" class="small muted" role="status"></span></div></details>';
+  h+='<details class="card"><summary>How scoring works</summary>'+HOW+'</details>';
+  h+='<p class="small muted">Candidate coding is based on public information gathered October 10 to 15, 2026: recorded council votes (Council Record, checked against City minutes), the North Shore News candidate Q&amp;A and forum reports, North Vancouver Chamber of Commerce Q&amp;As, North Van Votes, Vote4Tomorrow, VoteMate, HUB Cycling\'s survey, campaign websites and endorsement lists. Each coded cell links its sources. Campaign statements are self-reported. Facebook and Instagram were not read.</p>';
+  return h;
+}
+
+function summaryText(us,res){
+  var sum="North Van 2026 ballot match, my results\n";
+  CATS.forEach(function(c){
+    var u=us[c.id];
+    sum+="- "+c.name+": "+(u==null?"no answer":u.toFixed(1)+"/5 ("+c.lo+" = 1, "+c.hi+" = 5)")+"; priority "+PRIORITY_LABELS[S.w[c.id]||0].toLowerCase()+(S.db[c.id]?"; dealbreaker":"")+"\n";
+  });
+  var offs=QUESTIONS.filter(function(q){return S.ans[q.id]&&S.ans[q.id].type==="off"&&S.ans[q.id].text;});
+  if(offs.length){sum+="\nOff-script answers:\n";offs.forEach(function(q){sum+="- "+q.q+" -> "+S.ans[q.id].text+" (placed at "+S.ans[q.id].score+"/5)\n";});}
+  [["mayor","Mayor"],["council","Council"]].forEach(function(g){
+    var n=seats(g[0]);
+    sum+="\n"+g[1]+" (match, evidence, top-"+n+" chance):\n";
+    res[g[0]].rows.filter(function(x){return x.r.score!=null;}).forEach(function(x){
+      sum+="- "+x.c.n+" "+Math.round(x.r.score)+"%, evidence "+pct(x.r.evidence)+(x.r.conflicts.length?", dealbreaker conflict on "+x.r.conflicts.map(function(k){return cat(k).short;}).join("/"):", top-"+n+" chance "+pct(x.chance))+(x.r.limited?" (limited data)":"")+"\n";
+    });
+  });
+  return sum;
+}
+
+function render(){
+  var h;
+  if(S.step==="q")h=qView();else if(S.step==="w")h=wView();else if(S.step==="res")h=resView();else h=introView();
+  el("app").innerHTML=h;
+}
+load();
+if(S.step==="q"){var a0=S.ans[QUESTIONS[S.i].id];S.offOpen=!!(a0&&a0.type==="off");}
+render();
+</script>
+</body>
+</html>
